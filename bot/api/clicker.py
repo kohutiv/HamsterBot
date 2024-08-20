@@ -81,7 +81,7 @@ async def buy_skin(http_client: aiohttp.ClientSession, skin_id: str) -> dict:
         http_client,
         'POST',
         'https://api.hamsterkombatgame.io/clicker/buy-skin',
-        {"skinId": skin_id,"timestamp": int(time())},
+        {"skinId": skin_id, "timestamp": int(time())},
         'buy skin',
     )
     return response_json
@@ -96,6 +96,17 @@ async def get_skins(
         'https://api.hamsterkombatgame.io/clicker/get-skin',
         {},
         'getting Skins',
+    )
+    return response_json
+
+
+async def select_skin(http_client: aiohttp.ClientSession, skin_id: str) -> dict:
+    response_json = await make_request(
+        http_client,
+        'POST',
+        'https://api.hamsterkombatgame.io/clicker/select-skin',
+        {"skinId": skin_id},
+        'select skin',
     )
     return response_json
 

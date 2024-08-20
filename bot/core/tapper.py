@@ -24,6 +24,7 @@ from bot.api.clicker import (
     get_account_info,
     get_skins,
     buy_skin,
+    select_skin,
     send_taps)
 from bot.api.boosts import get_boosts, apply_boost
 from bot.api.upgrades import get_upgrades, buy_upgrade
@@ -600,6 +601,31 @@ class Tapper:
                             logger.success(f"{self.session_name} | Successfully selected exchange <ly>Bybit</ly>")
 
                     await asyncio.sleep(delay=randint(2, 4))
+
+                    if settings.USE_TAPS:
+                        taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
+
+                        profile_data = await send_taps(
+                            http_client=http_client,
+                            available_energy=available_energy,
+                            taps=taps,
+                        )
+
+                        if not profile_data:
+                            continue
+
+                        available_energy = profile_data.get('availableTaps', 0)
+                        new_balance = int(profile_data.get('balanceCoins', 0))
+                        calc_taps = new_balance - balance
+                        balance = new_balance
+                        total = int(profile_data.get('totalCoins', 0))
+                        earn_on_hour = profile_data['earnPassivePerHour']
+
+                        logger.success(f"{self.session_name} | Successful tapped! | "
+                                       f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Total: <le>{total:,}</le>")
+
+                    await asyncio.sleep(delay=randint(2, 4))
+
 
                     # Качаємо картки
                     if settings.AUTO_UPGRADE and datetime.now().hour > 8:
