@@ -429,13 +429,13 @@ class Tapper:
                                         logger.success(
                                             f"{self.session_name} | Successfully bought a new skin: <le>{skin_to_buy_name}</le> | Price: <lr>{skin_to_buy['price']:,}</lr> | Money left: <le>{balance:,}</le>")
 
-                                        # logger.info(
-                                        #     f"{self.session_name} | Sleep <lw>5s</lw> before selecting a new skin <le>{skin_to_buy_name}</le>")
-                                        # await asyncio.sleep(5)
-                                        #
-                                        # if await select_skin(http_client=http_client, skin_id=skin_to_buy['id']):
-                                        #     logger.success(
-                                        #         f"{self.session_name} | Successfully new skin is selected: <le>{skin_to_buy_name}</le>")
+                                        logger.info(
+                                            f"{self.session_name} | Sleep <lw>5s</lw> before selecting a new skin <le>{skin_to_buy_name}</le>")
+                                        await asyncio.sleep(5)
+
+                                        if await select_skin(http_client=http_client, skin_id=skin_to_buy['id']):
+                                            logger.success(
+                                                f"{self.session_name} | Successfully new skin is selected: <le>{skin_to_buy_name}</le>")
                         except Exception as e:
                             logger.error(f"{self.session_name} | Error in AUTO_BUY_SKINS: {str(e)}")
 
