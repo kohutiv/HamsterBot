@@ -323,7 +323,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     # Качаємо картки
-                    if settings.AUTO_UPGRADE and datetime.now().hour > 8:
+                    if settings.AUTO_UPGRADE:
                         for _ in range(settings.UPGRADES_COUNT):
                             available_upgrades = [
                                 data for data in upgrades
@@ -628,7 +628,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     # Качаємо картки
-                    if settings.AUTO_UPGRADE and datetime.now().hour > 8:
+                    if settings.AUTO_UPGRADE:
                         for _ in range(settings.UPGRADES_COUNT):
                             available_upgrades = [
                                 data for data in upgrades
