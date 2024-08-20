@@ -12,9 +12,11 @@ class Settings(BaseSettings):
 
     AUTO_UPGRADE: bool = False
     MAX_LEVEL: int = 20
-    MAX_PRICE: int = 50000000
+    MAX_PRICE: int = 50_000_000
 
-    BALANCE_TO_SAVE: int = 1000000
+    BUY_RATIO: float = 0.00007
+
+    BALANCE_TO_SAVE: int = 1_000_000
     UPGRADES_COUNT: int = 10
 
     MAX_COMBO_PRICE: int = 10000000

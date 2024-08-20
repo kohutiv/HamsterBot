@@ -349,7 +349,8 @@ class Tapper:
                                         and profit > 0
                                         and level <= settings.MAX_LEVEL
                                         and price <= settings.MAX_PRICE
-                                        and significance >= 0.00007):
+                                        and significance >= settings.BUY_RATIO):
+
                                     heapq.heappush(queue, (-significance, upgrade_id, upgrade))
 
                             if not queue:
@@ -625,7 +626,6 @@ class Tapper:
                                        f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Total: <le>{total:,}</le>")
 
                     await asyncio.sleep(delay=randint(2, 4))
-
 
                     # Качаємо картки
                     if settings.AUTO_UPGRADE and datetime.now().hour > 8:
