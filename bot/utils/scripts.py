@@ -269,7 +269,7 @@ async def get_promo_code(app_token: str,
 
             attempts += 1
 
-            max_event_timeout = event_timeout + 10
+            max_event_timeout = event_timeout + 20
             min_event_timeout = event_timeout - 10
             event_timeout = random.randint(min_event_timeout, max_event_timeout)
 
