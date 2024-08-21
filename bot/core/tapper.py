@@ -720,7 +720,7 @@ class Tapper:
                     earn_on_hour = profile_data['earnPassivePerHour']
 
                     logger.success(f"{self.session_name} | Successful tapped! | "
-                                   f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Total: <le>{total:,}</le>")
+                                   f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Energy: <le>{available_energy:,}</le>")
 
                 await asyncio.sleep(delay=randint(2, 4))
 
@@ -766,10 +766,20 @@ class Tapper:
                 await asyncio.sleep(delay=3)
 
             if settings.USE_TAPS:
-                sleep_between_clicks = randint(a=settings.SLEEP_BETWEEN_TAP[0], b=settings.SLEEP_BETWEEN_TAP[1])
+                await http_client.close()
+                if proxy_conn:
+                    if not proxy_conn.closed:
+                        proxy_conn.close()
 
-                logger.info(f"Sleep <lw>{sleep_between_clicks}s</lw>")
-                await asyncio.sleep(delay=sleep_between_clicks)
+                random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
+
+                if settings.USE_TAPS:
+                    logger.info(f"{self.session_name} | Minimum energy reached: <ly>{available_energy:.0f}</ly>")
+                logger.info(f"{self.session_name} | Sleep <lw>{random_sleep:,}s</lw>")
+
+                await asyncio.sleep(delay=random_sleep)
+
+                access_token_created_time = 0
 
 
 async def run_tapper(tg_client: Client, proxy: str | None):
