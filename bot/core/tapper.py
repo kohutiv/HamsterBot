@@ -453,10 +453,6 @@ class Tapper:
                         promo_activates = {promo['promoId']: promo['receiveKeysToday']
                                            for promo in promo_states}
 
-                        print(promo_activates)
-
-                        input()
-
                         # app_tokens_work = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
                         #                     "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
                         #                     "minWaitAfterLogin": 10},
