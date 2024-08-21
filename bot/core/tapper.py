@@ -350,7 +350,6 @@ class Tapper:
                                         and level <= settings.MAX_LEVEL
                                         and price <= settings.MAX_PRICE
                                         and significance >= settings.BUY_RATIO):
-
                                     heapq.heappush(queue, (-significance, upgrade_id, upgrade))
 
                             if not queue:
@@ -448,20 +447,15 @@ class Tapper:
                     # Підбираємо коди
                     if settings.APPLY_PROMO_CODES and datetime.now().hour > 8:
 
-
-
-
                         promos_data = await get_promos(http_client=http_client)
                         promo_states = promos_data.get('states', [])
 
                         promo_activates = {promo['promoId']: promo['receiveKeysToday']
                                            for promo in promo_states}
 
-
                         print(promo_activates)
 
                         input()
-
 
                         # app_tokens_work = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
                         #                     "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
@@ -539,7 +533,7 @@ class Tapper:
                                 promo_delay = randint(350, 620)
 
                                 logger.info(f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate "
-                                             f"new promo code")
+                                            f"new promo code")
 
                                 # await asyncio.sleep(delay=promo_delay)
 
@@ -776,7 +770,7 @@ class Tapper:
 
                     access_token_created_time = 0
 
-                except InvalidSession as error:
+            except InvalidSession as error:
                 raise error
 
             except Exception as error:
