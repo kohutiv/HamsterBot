@@ -29,7 +29,7 @@ def countdown_timer(seconds):
         h = str(h).zfill(2)
         m = str(m).zfill(2)
         s = str(s).zfill(2)
-        print(f"{mrh}Please wait until {h}:{m}:{s} ", flush=True, end="\r")
+        print(f"{hju}Please wait until {h}:{m}:{s} ", flush=True, end="\r")
         seconds -= 1
         sleep(1)
-    print(f"{mrh}Please wait until {h}:{m}:{s} ", flush=True, end="\r")
+    print(f"{hju}Please wait until {h}:{m}:{s} ", flush=True, end="\r")
