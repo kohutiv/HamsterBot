@@ -375,7 +375,9 @@ class Tapper:
                                 logger.info(
                                     f'{self.session_name} | Sleep {cooldown_seconds + 12:,}s before upgrade <e>{coin_name}</e>')
 
-                                await asyncio.sleep(delay=cooldown_seconds + 12)
+                                # await asyncio.sleep(delay=cooldown_seconds + 12)
+
+                                countdown_timer(cooldown_seconds + 12)
 
                             else:
                                 continue
@@ -683,6 +685,8 @@ class Tapper:
 
                                 await asyncio.sleep(delay=cooldown_seconds + 12)
 
+                                countdown_timer(cooldown_seconds + 12)
+
                             else:
                                 continue
 
@@ -756,7 +760,8 @@ class Tapper:
                         logger.info(f"{self.session_name} | Minimum energy reached: <ly>{available_energy:.0f}</ly>")
                     logger.info(f"{self.session_name} | Sleep <lw>{random_sleep:,}s</lw>")
 
-                    await asyncio.sleep(delay=random_sleep)
+                    # await asyncio.sleep(delay=random_sleep)
+                    countdown_timer(random_sleep)
 
                     access_token_created_time = 0
 
@@ -779,7 +784,8 @@ class Tapper:
                     logger.info(f"{self.session_name} | Minimum energy reached: <ly>{available_energy:.0f}</ly>")
                 logger.info(f"{self.session_name} | Sleep <lw>{random_sleep:,}s</lw>")
 
-                await asyncio.sleep(delay=random_sleep)
+                # await asyncio.sleep(delay=random_sleep)
+                countdown_timer(random_sleep)
 
                 access_token_created_time = 0
 
