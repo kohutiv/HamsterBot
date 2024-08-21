@@ -453,30 +453,11 @@ class Tapper:
                         promo_activates = {promo['promoId']: promo['receiveKeysToday']
                                            for promo in promo_states}
 
-                        # app_tokens_work = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
-                        #                     "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
-                        #                     "minWaitAfterLogin": 10},
-                        #
-                        #                    {"appToken": "d1690a07-3780-4068-810f-9b5bbf2931b2",
-                        #                     "promoId": "b4170868-cef0-424f-8eb9-be0622e8e8e3",
-                        #                     "minWaitAfterLogin": 25},
-                        #
-                        #                    {"appToken": "82647f43-3f87-402d-88dd-09a90025313f",
-                        #                     "promoId": "c4480ac7-e178-4973-8061-9ed5b2e17954",
-                        #                     "minWaitAfterLogin": 125},
-                        #
-                        #                    {"appToken": "d28721be-fd2d-4b45-869e-9f253b554e50",
-                        #                     "promoId": "43e35910-c168-4634-ad4f-52fd764a843f",
-                        #                     "minWaitAfterLogin": 125},
-                        #
-                        #                    {"appToken": "8d1cc2ad-e097-4b86-90ef-7a27e19fb833",
-                        #                     "promoId": "dc128d28-c45b-411c-98ff-ac7726fbaea4",
-                        #                     "minWaitAfterLogin": 125},
-                        #
-                        #                    {"appToken": "61308365-9d16-4040-8bb0-2f4a4c69074c",
-                        #                     "promoId": "61308365-9d16-4040-8bb0-2f4a4c69074c",
-                        #                     "minWaitAfterLogin": 125}
-                        #                    ]
+                        found_keys = sum([promo['receiveKeysToday'] for promo in promo_states])
+
+                        all_keys = len(promo_states)
+
+                        print(found_keys, ', ', all_keys)
 
                         app_tokens = {
                             "fe693b26-b342-4159-8808-15e3ff7f8767": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
@@ -489,11 +470,11 @@ class Tapper:
                         }
 
                         app_delays = {
-                            "fe693b26-b342-4159-8808-15e3ff7f8767": 45,
+                            "fe693b26-b342-4159-8808-15e3ff7f8767": 10,
                             "b4170868-cef0-424f-8eb9-be0622e8e8e3": 25,
                             "c4480ac7-e178-4973-8061-9ed5b2e17954": 125,
                             "43e35910-c168-4634-ad4f-52fd764a843f": 125,
-                            "dc128d28-c45b-411c-98ff-ac7726fbaea4": 125,
+                            "dc128d28-c45b-411c-98ff-ac7726fbaea4": 120,
                             "61308365-9d16-4040-8bb0-2f4a4c69074c": 125,
                             "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71": 120,
                         }
@@ -521,9 +502,6 @@ class Tapper:
                                             f"Promo Codes already claimed today for <lm>{title}</lm> game")
                                 continue
 
-                            # Event time for My Clone Arm
-                            # event_timeout = 120 if title == 'My Clone Army' else 30
-
                             while today_promo_activates_count < keys_per_day:
 
                                 promo_delay = randint(350, 620)
@@ -534,30 +512,6 @@ class Tapper:
                                 # await asyncio.sleep(delay=promo_delay)
 
                                 countdown_timer(promo_delay)
-
-                                if settings.USE_TAPS:
-                                    taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
-
-                                    profile_data = await send_taps(
-                                        http_client=http_client,
-                                        available_energy=available_energy,
-                                        taps=taps,
-                                    )
-
-                                    if not profile_data:
-                                        continue
-
-                                    available_energy = profile_data.get('availableTaps', 0)
-                                    new_balance = int(profile_data.get('balanceCoins', 0))
-                                    calc_taps = new_balance - balance
-                                    balance = new_balance
-                                    total = int(profile_data.get('totalCoins', 0))
-                                    earn_on_hour = profile_data['earnPassivePerHour']
-
-                                    logger.success(f"{self.session_name} | Successful tapped! | "
-                                                   f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Energy: <le>{available_energy:,}</le>")
-
-                                await asyncio.sleep(delay=randint(2, 4))
 
                                 promo_code = await get_promo_code(app_token=app_token,
                                                                   promo_id=promo_id,

@@ -22,7 +22,10 @@ class Settings(BaseSettings):
     MAX_COMBO_PRICE: int = 10000000
 
     APPLY_COMBO: bool = True
+
     APPLY_PROMO_CODES: bool = True
+    PER_ENTERED_KEYS: int = 100
+
     APPLY_DAILY_CIPHER: bool = True
     APPLY_DAILY_REWARD: bool = True
     APPLY_DAILY_ENERGY: bool = True
