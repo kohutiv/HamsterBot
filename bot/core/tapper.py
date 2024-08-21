@@ -670,6 +670,11 @@ class Tapper:
                         if not proxy_conn.closed:
                             proxy_conn.close()
 
+                    print('***************')
+                    print('Закрили сесію')
+                    print('***************')
+
+
                     random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
 
                     if settings.USE_TAPS:
