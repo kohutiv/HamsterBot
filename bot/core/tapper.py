@@ -353,7 +353,7 @@ class Tapper:
                     earn_on_hour = profile_data['earnPassivePerHour']
 
                     logger.success(f"{self.session_name} | Successful tapped! | "
-                                   f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Total: <le>{total:,}</le>")
+                                   f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Energy: <le>{available_energy:,}</le>")
 
                 await asyncio.sleep(delay=randint(6, 14))
 
@@ -616,7 +616,7 @@ class Tapper:
                     earn_on_hour = profile_data['earnPassivePerHour']
 
                     logger.success(f"{self.session_name} | Successful tapped! | "
-                                   f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Total: <le>{total:,}</le>")
+                                   f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Energy: <le>{available_energy:,}</le>")
 
                 await asyncio.sleep(delay=randint(6, 14))
 
