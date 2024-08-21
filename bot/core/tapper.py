@@ -494,8 +494,8 @@ class Tapper:
                     logger.info(
                         f"{self.session_name} | <lg>{found_keys}</lg> keys out of <lg>{all_keys}</lg> are activated!")
 
-                    if found_keys >= (all_keys * settings.PER_ENTERED_KEYS) / 100:
-                        break
+                    # if found_keys >= (all_keys * settings.PER_ENTERED_KEYS) / 100:
+                    #     break
 
                     apps_info = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
                                   "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
@@ -546,10 +546,10 @@ class Tapper:
 
                         today_promo_activates_count = promo_activates.get(promo_id, 0)
 
-                        if today_promo_activates_count >= keys_per_day:
-                            logger.info(f"{self.session_name} | "
-                                        f"Promo Codes already claimed today for <lm>{title}</lm> game")
-                            continue
+                        # if today_promo_activates_count >= keys_per_day:
+                        #     logger.info(f"{self.session_name} | "
+                        #                 f"Promo Codes already claimed today for <lm>{title}</lm> game")
+                        #     continue
 
                         while today_promo_activates_count < keys_per_day:
 
@@ -559,21 +559,21 @@ class Tapper:
                                 f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate "
                                 f"new promo code")
 
-                            countdown_timer(promo_delay)
+                            # countdown_timer(promo_delay)
 
-                            promo_code = await get_promo_code(app_token=app_token,
-                                                              promo_id=promo_id,
-                                                              promo_title=title,
-                                                              max_attempts=20,
-                                                              event_timeout=event_timeout,
-                                                              session_name=self.session_name,
-                                                              proxy=proxy)
-
-                            if not promo_code:
-                                continue
+                            # promo_code = await get_promo_code(app_token=app_token,
+                            #                                   promo_id=promo_id,
+                            #                                   promo_title=title,
+                            #                                   max_attempts=20,
+                            #                                   event_timeout=event_timeout,
+                            #                                   session_name=self.session_name,
+                            #                                   proxy=proxy)
+                            #
+                            # if not promo_code:
+                            #     continue
 
                             profile_data, promo_state = await apply_promo(http_client=http_client,
-                                                                          promo_code=promo_code)
+                                                                          promo_code="POLY-WHN-LVYC-YQKV-XFL")
 
                             if profile_data and promo_state:
                                 total_keys = profile_data.get('totalKeys', total_keys)
