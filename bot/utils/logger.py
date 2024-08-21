@@ -21,6 +21,8 @@ logger = logger.opt(colors=True)
 
 
 def countdown_timer(seconds):
+    print(f"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", end="\r")
+
     while seconds:
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
