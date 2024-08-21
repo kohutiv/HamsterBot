@@ -2,7 +2,7 @@ import os
 import glob
 import time
 import uuid
-from random import randint
+import random
 import string
 import base64
 import asyncio
@@ -271,7 +271,7 @@ async def get_promo_code(app_token: str,
 
             max_event_timeout = event_timeout + 10
             min_event_timeout = event_timeout - 10
-            event_timeout = randint(min_event_timeout, max_event_timeout)
+            event_timeout = random.randint(min_event_timeout, max_event_timeout)
 
 
             logger.debug(
