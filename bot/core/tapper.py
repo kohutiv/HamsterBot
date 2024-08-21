@@ -553,7 +553,7 @@ class Tapper:
                             data for data in upgrades
                             if data['isAvailable'] is True
                                and data['isExpired'] is False
-                               and data.get('cooldownSeconds', 0) <= 3601
+                               and data.get('cooldownSeconds', 0) <= 1801
                                and data.get('maxLevel', data['level']) >= data['level']
                         ]
 
@@ -621,7 +621,7 @@ class Tapper:
 
                 await asyncio.sleep(delay=randint(6, 14))
 
-                # ТАПАЄМО 1
+                # ТАПАЄМО
                 if settings.USE_TAPS:
                     taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
 
