@@ -560,9 +560,7 @@ class Tapper:
                                 f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate "
                                 f"new promo code")
 
-                            # await asyncio.sleep(delay=promo_delay)
-
-                            countdown_timer(promo_delay)
+                            # countdown_timer(promo_delay)
 
                             promo_code = await get_promo_code(app_token=app_token,
                                                               promo_id=promo_id,
@@ -576,7 +574,7 @@ class Tapper:
                                 continue
 
                             profile_data, promo_state = await apply_promo(http_client=http_client,
-                                                                          promo_code=promo_code)
+                                                                          promo_code="POLY-YJA-4AA8-YBGG-MFH")
 
                             if profile_data and promo_state:
                                 total_keys = profile_data.get('totalKeys', total_keys)
