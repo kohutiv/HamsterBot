@@ -574,7 +574,7 @@ class Tapper:
                             #     continue
 
                             profile_data, promo_state = await apply_promo(http_client=http_client,
-                                                                          promo_code="POLY-YHN-5EEG-Y5JS-J5P")
+                                                                          promo_code="POLY-YHB-YRV5-YDM8-659")
 
                             if profile_data and promo_state:
                                 total_keys = profile_data.get('totalKeys', total_keys)
