@@ -562,19 +562,19 @@ class Tapper:
 
                             # countdown_timer(promo_delay)
 
-                            # promo_code = await get_promo_code(app_token=app_token,
-                            #                                   promo_id=promo_id,
-                            #                                   promo_title=title,
-                            #                                   max_attempts=20,
-                            #                                   event_timeout=event_timeout,
-                            #                                   session_name=self.session_name,
-                            #                                   proxy=proxy)
-                            #
-                            # if not promo_code:
-                            #     continue
+                            promo_code = await get_promo_code(app_token=app_token,
+                                                              promo_id=promo_id,
+                                                              promo_title=title,
+                                                              max_attempts=20,
+                                                              event_timeout=event_timeout,
+                                                              session_name=self.session_name,
+                                                              proxy=proxy)
+
+                            if not promo_code:
+                                continue
 
                             profile_data, promo_state = await apply_promo(http_client=http_client,
-                                                                          promo_code="POLY-YJA-4AA8-YBGG-MFH")
+                                                                          promo_code="promo_code")
 
                             if profile_data and promo_state:
                                 total_keys = profile_data.get('totalKeys', total_keys)
