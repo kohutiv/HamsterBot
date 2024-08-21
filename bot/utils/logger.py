@@ -21,7 +21,7 @@ logger = logger.opt(colors=True)
 
 
 def countdown_timer(seconds):
-    print(f"{hju}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(f"{hju}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", flush=True)
 
     while seconds:
         m, s = divmod(seconds, 60)
