@@ -539,6 +539,30 @@ class Tapper:
 
                                 countdown_timer(promo_delay)
 
+                                if settings.USE_TAPS:
+                                    taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
+
+                                    profile_data = await send_taps(
+                                        http_client=http_client,
+                                        available_energy=available_energy,
+                                        taps=taps,
+                                    )
+
+                                    if not profile_data:
+                                        continue
+
+                                    available_energy = profile_data.get('availableTaps', 0)
+                                    new_balance = int(profile_data.get('balanceCoins', 0))
+                                    calc_taps = new_balance - balance
+                                    balance = new_balance
+                                    total = int(profile_data.get('totalCoins', 0))
+                                    earn_on_hour = profile_data['earnPassivePerHour']
+
+                                    logger.success(f"{self.session_name} | Successful tapped! | "
+                                                   f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Energy: <le>{available_energy:,}</le>")
+
+                                await asyncio.sleep(delay=randint(2, 4))
+
                                 promo_code = await get_promo_code(app_token=app_token,
                                                                   promo_id=promo_id,
                                                                   promo_title=title,
