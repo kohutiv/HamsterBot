@@ -677,11 +677,12 @@ class Tapper:
 
                     random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
 
-                    if settings.USE_TAPS:
+                    if settings.USE_TAPS and datetime.now().hour > 8:
                         logger.info(f"{self.session_name} | Minimum energy reached: <ly>{available_energy:.0f}</ly>")
                     logger.info(f"{self.session_name} | Sleep <lw>{random_sleep:,}s</lw>")
 
-                    await asyncio.sleep(delay=random_sleep)
+                    # await asyncio.sleep(delay=random_sleep)
+                    countdown_timer(random_sleep)
 
                     access_token_created_time = 0
 
