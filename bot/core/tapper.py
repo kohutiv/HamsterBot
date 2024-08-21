@@ -543,7 +543,7 @@ class Tapper:
 
                 await asyncio.sleep(delay=randint(6, 14))
 
-                # ТАПАЄМО
+                # ТАПАЄМО 2
                 if settings.USE_TAPS:
                     taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
 
