@@ -548,76 +548,76 @@ class Tapper:
 
                 # Качаємо картки
                 if settings.AUTO_UPGRADE and datetime.now().hour > 8:
-                        for _ in range(settings.UPGRADES_COUNT):
-                            available_upgrades = [
-                                data for data in upgrades
-                                if data['isAvailable'] is True
-                                   and data['isExpired'] is False
-                                   and data.get('cooldownSeconds', 0) <= 3601
-                                   and data.get('maxLevel', data['level']) >= data['level']
-                            ]
+                    for _ in range(settings.UPGRADES_COUNT):
+                        available_upgrades = [
+                            data for data in upgrades
+                            if data['isAvailable'] is True
+                               and data['isExpired'] is False
+                               and data.get('cooldownSeconds', 0) <= 3601
+                               and data.get('maxLevel', data['level']) >= data['level']
+                        ]
 
-                            queue = []
+                        queue = []
 
-                            for upgrade in available_upgrades:
-                                upgrade_id = upgrade['id']
-                                level = upgrade['level']
-                                price = upgrade['price']
-                                profit = upgrade['profitPerHourDelta']
-
-                                significance = profit / max(price, 1)
-
-                                free_money = balance - settings.BALANCE_TO_SAVE
-
-                                if ((free_money * 0.7) >= price
-                                        and profit > 0
-                                        and level <= settings.MAX_LEVEL
-                                        and price <= settings.MAX_PRICE
-                                        and significance >= settings.BUY_RATIO):
-                                    heapq.heappush(queue, (-significance, upgrade_id, upgrade))
-
-                            if not queue:
-                                continue
-
-                            top_card = heapq.nsmallest(1, queue)[0]
-                            upgrade = top_card[2]
+                        for upgrade in available_upgrades:
                             upgrade_id = upgrade['id']
                             level = upgrade['level']
                             price = upgrade['price']
                             profit = upgrade['profitPerHourDelta']
-                            coin_name = upgrade['name']
-                            cooldown_seconds = upgrade.get('cooldownSeconds', 0)
 
-                            if not cooldown_seconds:
-                                logger.info(
-                                    f'{self.session_name} | Sleep 5s before upgrade <e>{coin_name}</e>'
-                                )
-                                await asyncio.sleep(delay=5)
+                            significance = profit / max(price, 1)
 
-                            elif cooldown_seconds < 1801:
-                                logger.info(
-                                    f'{self.session_name} | Sleep {cooldown_seconds + 12:,}s before upgrade <e>{coin_name}</e>')
+                            free_money = balance - settings.BALANCE_TO_SAVE
 
-                                # await asyncio.sleep(delay=cooldown_seconds + 12)
+                            if ((free_money * 0.7) >= price
+                                    and profit > 0
+                                    and level <= settings.MAX_LEVEL
+                                    and price <= settings.MAX_PRICE
+                                    and significance >= settings.BUY_RATIO):
+                                heapq.heappush(queue, (-significance, upgrade_id, upgrade))
 
-                                countdown_timer(cooldown_seconds + 12)
+                        if not queue:
+                            continue
 
-                            else:
-                                continue
+                        top_card = heapq.nsmallest(1, queue)[0]
+                        upgrade = top_card[2]
+                        upgrade_id = upgrade['id']
+                        level = upgrade['level']
+                        price = upgrade['price']
+                        profit = upgrade['profitPerHourDelta']
+                        coin_name = upgrade['name']
+                        cooldown_seconds = upgrade.get('cooldownSeconds', 0)
 
-                            status, upgrades = await buy_upgrade(http_client=http_client, upgrade_id=upgrade_id)
+                        if not cooldown_seconds:
+                            logger.info(
+                                f'{self.session_name} | Sleep 5s before upgrade <e>{coin_name}</e>'
+                            )
+                            await asyncio.sleep(delay=5)
 
-                            if status is True:
-                                earn_on_hour += profit
-                                balance -= price
-                                logger.success(f"{self.session_name} | "
-                                               f"Successfully upgraded <le>{upgrade_id}</le> with price <lr>{price:,}</lr> to <m>{level}</m> lvl | "
-                                               f"Earn every hour: <ly>{earn_on_hour:,}</ly> (<lg>+{profit:,}</lg>) | "
-                                               f"Money left: <le>{balance:,}</le>")
+                        elif cooldown_seconds < 1801:
+                            logger.info(
+                                f'{self.session_name} | Sleep {cooldown_seconds + 12:,}s before upgrade <e>{coin_name}</e>')
 
-                                await asyncio.sleep(delay=1)
+                            # await asyncio.sleep(delay=cooldown_seconds + 12)
 
-                                continue
+                            countdown_timer(cooldown_seconds + 12)
+
+                        else:
+                            continue
+
+                        status, upgrades = await buy_upgrade(http_client=http_client, upgrade_id=upgrade_id)
+
+                        if status is True:
+                            earn_on_hour += profit
+                            balance -= price
+                            logger.success(f"{self.session_name} | "
+                                           f"Successfully upgraded <le>{upgrade_id}</le> with price <lr>{price:,}</lr> to <m>{level}</m> lvl | "
+                                           f"Earn every hour: <ly>{earn_on_hour:,}</ly> (<lg>+{profit:,}</lg>) | "
+                                           f"Money left: <le>{balance:,}</le>")
+
+                            await asyncio.sleep(delay=1)
+
+                            continue
 
                 await asyncio.sleep(delay=randint(6, 14))
 
@@ -645,35 +645,6 @@ class Tapper:
                                    f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Energy: <le>{available_energy:,}</le>")
 
                 await asyncio.sleep(delay=randint(6, 14))
-
-
-
-
-
-                # ТАПАЄМО 2
-                # if settings.USE_TAPS:
-                #     taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
-                #
-                #     profile_data = await send_taps(
-                #         http_client=http_client,
-                #         available_energy=available_energy,
-                #         taps=taps,
-                #     )
-                #
-                #     if not profile_data:
-                #         continue
-                #
-                #     available_energy = profile_data.get('availableTaps', 0)
-                #     new_balance = int(profile_data.get('balanceCoins', 0))
-                #     calc_taps = new_balance - balance
-                #     balance = new_balance
-                #     total = int(profile_data.get('totalCoins', 0))
-                #     earn_on_hour = profile_data['earnPassivePerHour']
-                #
-                #     logger.success(f"{self.session_name} | Successful tapped! | "
-                #                    f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Energy: <le>{available_energy:,}</le>")
-                #
-                # await asyncio.sleep(delay=randint(6, 14))
 
                 if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS:
                     if settings.USE_TAPS:
