@@ -783,8 +783,9 @@ class Tapper:
                 logger.info(f"Sleep <lw>{sleep_between_clicks}s</lw>")
                 await asyncio.sleep(delay=sleep_between_clicks)
 
-            async def run_tapper(tg_client: Client, proxy: str | None):
-                try:
-                    await Tapper(tg_client=tg_client).run(proxy=proxy)
-                except InvalidSession:
-                    logger.error(f"{tg_client.name} | Invalid Session")
+
+async def run_tapper(tg_client: Client, proxy: str | None):
+    try:
+        await Tapper(tg_client=tg_client).run(proxy=proxy)
+    except InvalidSession:
+        logger.error(f"{tg_client.name} | Invalid Session")
