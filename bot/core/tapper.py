@@ -447,11 +447,21 @@ class Tapper:
 
                     # Підбираємо коди
                     if settings.APPLY_PROMO_CODES and datetime.now().hour > 8:
+
+
+
+
                         promos_data = await get_promos(http_client=http_client)
                         promo_states = promos_data.get('states', [])
 
                         promo_activates = {promo['promoId']: promo['receiveKeysToday']
                                            for promo in promo_states}
+
+
+                        print(promo_activates)
+
+                        input()
+
 
                         # app_tokens_work = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
                         #                     "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
@@ -762,12 +772,11 @@ class Tapper:
                         logger.info(f"{self.session_name} | Minimum energy reached: <ly>{available_energy:.0f}</ly>")
                     logger.info(f"{self.session_name} | Sleep <lw>{random_sleep:,}s</lw>")
 
-                    # await asyncio.sleep(delay=random_sleep)
-                    countdown_timer(random_sleep)
+                    await asyncio.sleep(delay=random_sleep)
 
                     access_token_created_time = 0
 
-            except InvalidSession as error:
+                except InvalidSession as error:
                 raise error
 
             except Exception as error:
@@ -775,25 +784,13 @@ class Tapper:
                 await asyncio.sleep(delay=3)
 
             if settings.USE_TAPS:
-                await http_client.close()
-                if proxy_conn:
-                    if not proxy_conn.closed:
-                        proxy_conn.close()
+                sleep_between_clicks = randint(a=settings.SLEEP_BETWEEN_TAP[0], b=settings.SLEEP_BETWEEN_TAP[1])
 
-                random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
+                logger.info(f"Sleep <lw>{sleep_between_clicks}s</lw>")
+                await asyncio.sleep(delay=sleep_between_clicks)
 
-                if settings.USE_TAPS:
-                    logger.info(f"{self.session_name} | Minimum energy reached: <ly>{available_energy:.0f}</ly>")
-                logger.info(f"{self.session_name} | Sleep <lw>{random_sleep:,}s</lw>")
-
-                # await asyncio.sleep(delay=random_sleep)
-                countdown_timer(random_sleep)
-
-                access_token_created_time = 0
-
-
-async def run_tapper(tg_client: Client, proxy: str | None):
-    try:
-        await Tapper(tg_client=tg_client).run(proxy=proxy)
-    except InvalidSession:
-        logger.error(f"{tg_client.name} | Invalid Session")
+            async def run_tapper(tg_client: Client, proxy: str | None):
+                try:
+                    await Tapper(tg_client=tg_client).run(proxy=proxy)
+                except InvalidSession:
+                    logger.error(f"{tg_client.name} | Invalid Session")
