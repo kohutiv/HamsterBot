@@ -9,7 +9,7 @@ import aiohttp_proxy
 from pyrogram import Client
 
 from bot.config import settings
-from bot.utils.logger import logger
+from bot.utils.logger import logger, countdown_timer
 from bot.utils.proxy import check_proxy
 from bot.utils.tg_web_data import get_tg_web_data
 from bot.utils.scripts import decode_cipher, get_headers, get_mini_game_cipher, get_promo_code
@@ -524,10 +524,12 @@ class Tapper:
 
                                 promo_delay = randint(350, 620)
 
-                                logger.info(
-                                    f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate new promo code")
+                                logger.info(f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate "
+                                             f"new promo code")
 
-                                await asyncio.sleep(delay=promo_delay)
+                                # await asyncio.sleep(delay=promo_delay)
+
+                                countdown_timer(promo_delay)
 
                                 promo_code = await get_promo_code(app_token=app_token,
                                                                   promo_id=promo_id,
