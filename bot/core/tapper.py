@@ -646,7 +646,7 @@ class Tapper:
 
                 await asyncio.sleep(delay=randint(6, 14))
 
-                if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS:
+                if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS or not datetime.now().hour > 8:
                     if settings.USE_TAPS and datetime.now().hour > 8:
                         boosts = await get_boosts(http_client=http_client)
                         energy_boost = next((boost for boost in boosts if boost['id'] == 'BoostFullAvailableTaps'), {})
