@@ -114,15 +114,18 @@ class Tapper:
                     logger.info(f"{self.session_name} | IP: <lw>{ip}</lw> | Country: <le>{country_code}</le> | "
                                 f"City: <lc>{city_name}</lc> | Network Provider: <lg>{asn_org}</lg>")
 
+                    balance = int(profile_data.get('balanceCoins', 0))
                     last_passive_earn = int(profile_data.get('lastPassiveEarn', 0))
                     earn_on_hour = int(profile_data.get('earnPassivePerHour', 0))
                     total_keys = profile_data.get('totalKeys', 0)
+
+                    logger.info(f"{self.session_name} | Total balance: <lg>+{balance:,}</lg> | "
+                                f"Balance to save: <ly>{settings.BALANCE_TO_SAVE:,}</ly>")
 
                     logger.info(f"{self.session_name} | Last passive earn: <lg>+{last_passive_earn:,}</lg> | "
                                 f"Earn every hour: <ly>{earn_on_hour:,}</ly> | Total keys: <le>{total_keys}</le>")
 
                     available_energy = profile_data.get('availableTaps', 0)
-                    balance = int(profile_data.get('balanceCoins', 0))
 
                     upgrades = upgrades_data['upgradesForBuy']
                     daily_combo = upgrades_data.get('dailyCombo')
@@ -673,7 +676,6 @@ class Tapper:
                     print('***************')
                     print('Закрили сесію')
                     print('***************')
-
 
                     random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
 
