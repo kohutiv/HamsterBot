@@ -43,6 +43,8 @@ class Tapper:
     async def run(self, proxy: str | None) -> None:
         access_token_created_time = 0
 
+        print(f'Тут встановило токен тайм: {access_token_created_time}')
+
         if settings.USE_RANDOM_DELAY_IN_RUN:
             random_delay = randint(settings.RANDOM_DELAY_IN_RUN[0], settings.RANDOM_DELAY_IN_RUN[1])
             logger.info(f"{self.tg_client.name} | Run for <lw>{random_delay}s</lw>")
@@ -72,6 +74,7 @@ class Tapper:
                     proxy_conn = aiohttp_proxy.ProxyConnector().from_url(proxy) if proxy else None
                     http_client = aiohttp.ClientSession(headers=headers, connector=proxy_conn)
 
+                print(f'Тут буде перевіряти тайм{time()} мінус токен тайм {access_token_created_time} рівне {time() - access_token_created_time}')
                 if time() - access_token_created_time >= 3600:
                     http_client.headers.pop('Authorization', None)
 
@@ -89,6 +92,8 @@ class Tapper:
                     http_client.headers['Authorization'] = f"Bearer {access_token}"
 
                     access_token_created_time = time()
+
+                    print(f'Тут встановило токен тайм в тайм: {access_token_created_time}')
 
                     account_info = await get_account_info(http_client=http_client)
                     profile_data = await get_profile_data(http_client=http_client)
@@ -168,6 +173,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                 if settings.USE_TAPS:
+                    print('Зайшло в тапалку')
                     taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
 
                     profile_data = await send_taps(
@@ -190,9 +196,11 @@ class Tapper:
                                    f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Energy: <le>{available_energy:,}</le>")
 
                 # AUTO UPGRADE
+                print(f'Тут AUTO UPGRADE')
 
                 if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS:
                     if settings.USE_TAPS:
+                        print('Тут провірка чи є буст')
                         boosts = await get_boosts(http_client=http_client)
                         energy_boost = next((boost for boost in boosts if boost['id'] == 'BoostFullAvailableTaps'), {})
 
@@ -209,7 +217,7 @@ class Tapper:
                                 await asyncio.sleep(delay=1)
 
                                 continue
-
+                    print('Тут закриває зєнання')
                     await http_client.close()
                     if proxy_conn:
                         if not proxy_conn.closed:
@@ -224,6 +232,8 @@ class Tapper:
                     await asyncio.sleep(delay=random_sleep)
 
                     access_token_created_time = 0
+                    print(f'Тут встановило токен тайм в нуль: {access_token_created_time}')
+
 
             except InvalidSession as error:
                 raise error
