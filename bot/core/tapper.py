@@ -357,8 +357,55 @@ class Tapper:
 
                 await asyncio.sleep(delay=randint(6, 14))
 
+                # Купляємо скіни
+                if settings.AUTO_BUY_SKINS and datetime.now().hour > 8:
+                    try:
+                        skins = (
+                            await get_version_config(http_client=http_client, config_version=config_version)).get(
+                            'config', {}).get('skins', [])
+
+                        bought_skins_ids = {skin.get('skinId') for skin in
+                                            profile_data.get('skin', {}).get('available', [])}
+
+                        bought_skins = len(bought_skins_ids)
+
+                        logger.info(f"{self.session_name} | Bought Skins: <lg>{bought_skins}</lg>")
+
+                        available_skins = [
+                            skin for skin in skins
+                            if skin.get('price', 0) <= settings.MAX_PRICE_SKIN
+                               and skin.get('id') not in bought_skins_ids
+                               and not skin.get('expiresAt')
+                        ]
+
+                        if available_skins:
+                            skin_to_buy = min(available_skins, key=lambda x: x['price'])
+                            skin_to_buy_name = skin_to_buy['name']
+
+                            if balance - settings.BALANCE_TO_SAVE >= skin_to_buy['price']:
+                                logger.info(
+                                    f"{self.session_name} | Sleep <lw>5s</lw> before buying a new skin <le>{skin_to_buy_name}</le>")
+                                await asyncio.sleep(5)
+
+                                if await buy_skin(http_client=http_client, skin_id=skin_to_buy['id']):
+                                    balance -= skin_to_buy['price']
+                                    logger.success(
+                                        f"{self.session_name} | Successfully bought a new skin: <le>{skin_to_buy_name}</le> | Price: <lr>{skin_to_buy['price']:,}</lr> | Money left: <le>{balance:,}</le>")
+
+                                    logger.info(
+                                        f"{self.session_name} | Sleep <lw>5s</lw> before selecting a new skin <le>{skin_to_buy_name}</le>")
+                                    await asyncio.sleep(5)
+
+                                    if await select_skin(http_client=http_client, skin_id=skin_to_buy['id']):
+                                        logger.success(
+                                            f"{self.session_name} | Successfully new skin is selected: <le>{skin_to_buy_name}</le>")
+                    except Exception as e:
+                        logger.error(f"{self.session_name} | Error in AUTO_BUY_SKINS: {str(e)}")
+
+                await asyncio.sleep(delay=randint(6, 14))
+
                 # Качаємо картки
-                if settings.AUTO_UPGRADE:
+                if settings.AUTO_UPGRADE and datetime.now().hour > 8:
                     for _ in range(settings.UPGRADES_COUNT):
                         available_upgrades = [
                             data for data in upgrades
@@ -447,8 +494,6 @@ class Tapper:
 
                     if found_keys >= (all_keys * settings.PER_ENTERED_KEYS) / 100:
                         break
-
-                    print(found_keys, ', ', all_keys)
 
                     # apps_info = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
                     #               "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767", "minWaitAfterLogin": 10},
