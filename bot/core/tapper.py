@@ -189,6 +189,8 @@ class Tapper:
                     logger.success(f"{self.session_name} | Successful tapped! | "
                                    f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Energy: <le>{available_energy:,}</le>")
 
+                # AUTO UPGRADE
+
                 if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS:
                     if settings.USE_TAPS:
                         boosts = await get_boosts(http_client=http_client)
