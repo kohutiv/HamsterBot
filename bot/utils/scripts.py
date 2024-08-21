@@ -2,7 +2,7 @@ import os
 import glob
 import time
 import uuid
-import random
+from random import randint
 import string
 import base64
 import asyncio
@@ -269,7 +269,11 @@ async def get_promo_code(app_token: str,
 
             attempts += 1
 
-            # ЗАЧЕМ ЭТО ВПРИНЦИПЕ ТУТ!!!
+            max_event_timeout = event_timeout + 10
+            min_event_timeout = event_timeout - 10
+            event_timeout = randint(min_event_timeout, max_event_timeout)
+
+
             logger.debug(
                 f"{session_name} | Attempt <lr>{attempts}</lr> was successful for <lm>{promo_title}</lm> game | "
                 f"Sleep <lw>{event_timeout}s</lw> before <lr>{attempts + 1}</lr> attempt to get promo code")
