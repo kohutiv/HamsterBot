@@ -534,7 +534,7 @@ class Tapper:
 
                         max_event_timeout = event_timeout + 10
                         min_event_timeout = event_timeout - 10
-                        event_timeout - randint(min_event_timeout, max_event_timeout)
+                        event_timeout = randint(min_event_timeout, max_event_timeout)
 
                         if not app_token:
                             continue
