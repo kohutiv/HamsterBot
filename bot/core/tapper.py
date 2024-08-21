@@ -30,7 +30,7 @@ from bot.api.boosts import get_boosts, apply_boost
 from bot.api.upgrades import get_upgrades, buy_upgrade
 from bot.api.combo import claim_daily_combo, get_combo_cards
 from bot.api.cipher import claim_daily_cipher
-from bot.api.promo import get_promos, apply_promo
+from bot.api.promo import get_promos, apply_promo, get_apps_info
 from bot.api.minigame import start_daily_mini_game, claim_daily_mini_game
 from bot.api.tasks import get_tasks, get_airdrop_tasks, check_task
 from bot.api.exchange import select_exchange
@@ -370,7 +370,7 @@ class Tapper:
                                 )
                                 await asyncio.sleep(delay=5)
 
-                            elif cooldown_seconds < 3601:
+                            elif cooldown_seconds < 1801:
                                 logger.info(
                                     f'{self.session_name} | Sleep {cooldown_seconds + 12:,}s before upgrade <e>{coin_name}</e>')
 
@@ -455,28 +455,34 @@ class Tapper:
 
                         found_keys = sum([promo['receiveKeysToday'] for promo in promo_states])
 
-                        all_keys = len(promo_states)
+                        all_keys = len(promo_states) * 4
+
+                        if found_keys >= (all_keys * settings.PER_ENTERED_KEYS) / 100:
+                            break
 
                         print(found_keys, ', ', all_keys)
 
-                        app_tokens = {
-                            "fe693b26-b342-4159-8808-15e3ff7f8767": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
-                            "b4170868-cef0-424f-8eb9-be0622e8e8e3": "d1690a07-3780-4068-810f-9b5bbf2931b2",
-                            "c4480ac7-e178-4973-8061-9ed5b2e17954": "82647f43-3f87-402d-88dd-09a90025313f",
-                            "43e35910-c168-4634-ad4f-52fd764a843f": "d28721be-fd2d-4b45-869e-9f253b554e50",
-                            "dc128d28-c45b-411c-98ff-ac7726fbaea4": "8d1cc2ad-e097-4b86-90ef-7a27e19fb833",
-                            "61308365-9d16-4040-8bb0-2f4a4c69074c": "61308365-9d16-4040-8bb0-2f4a4c69074c",
-                            "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71"
-                        }
+                        # apps_info = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
+                        #               "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767", "minWaitAfterLogin": 10},
+                        #              {"appToken": "d1690a07-3780-4068-810f-9b5bbf2931b2",
+                        #               "promoId": "b4170868-cef0-424f-8eb9-be0622e8e8e3", "minWaitAfterLogin": 25},
+                        #              {"appToken": "82647f43-3f87-402d-88dd-09a90025313f",
+                        #               "promoId": "c4480ac7-e178-4973-8061-9ed5b2e17954", "minWaitAfterLogin": 125},
+                        #              {"appToken": "d28721be-fd2d-4b45-869e-9f253b554e50",
+                        #               "promoId": "43e35910-c168-4634-ad4f-52fd764a843f", "minWaitAfterLogin": 125},
+                        #              {"appToken": "8d1cc2ad-e097-4b86-90ef-7a27e19fb833",
+                        #               "promoId": "dc128d28-c45b-411c-98ff-ac7726fbaea4", "minWaitAfterLogin": 120},
+                        #              {"appToken": "61308365-9d16-4040-8bb0-2f4a4c69074c",
+                        #               "promoId": "61308365-9d16-4040-8bb0-2f4a4c69074c", "minWaitAfterLogin": 125},
+                        #              {"appToken": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
+                        #               "promoId": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71", "minWaitAfterLogin": 120}]
 
-                        app_delays = {
-                            "fe693b26-b342-4159-8808-15e3ff7f8767": 10,
-                            "b4170868-cef0-424f-8eb9-be0622e8e8e3": 25,
-                            "c4480ac7-e178-4973-8061-9ed5b2e17954": 125,
-                            "43e35910-c168-4634-ad4f-52fd764a843f": 125,
-                            "dc128d28-c45b-411c-98ff-ac7726fbaea4": 120,
-                            "61308365-9d16-4040-8bb0-2f4a4c69074c": 125,
-                            "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71": 120,
+                        apps_info = await get_apps_info(http_client=http_client)
+                        apps = {
+                            app['promoId']: {
+                                'appToken': app['appToken'],
+                                'event_timeout': app['minWaitAfterLogin']
+                            } for app in apps_info
                         }
 
                         promos = promos_data.get('promos', [])
@@ -485,8 +491,9 @@ class Tapper:
 
                         for promo in promos:
                             promo_id = promo['promoId']
-                            app_token = app_tokens.get(promo_id)
-                            event_timeout = app_delays.get(promo_id)
+                            app = apps.get(promo_id)
+                            app_token = app['appToken']
+                            event_timeout = app['event_timeout']
 
                             if not app_token:
                                 continue
@@ -618,7 +625,7 @@ class Tapper:
                                 data for data in upgrades
                                 if data['isAvailable'] is True
                                    and data['isExpired'] is False
-                                   and data.get('cooldownSeconds', 0) <= 3601
+                                   and data.get('cooldownSeconds', 0) <= 1801
                                    and data.get('maxLevel', data['level']) >= data['level']
                             ]
 
