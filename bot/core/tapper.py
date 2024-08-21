@@ -622,7 +622,7 @@ class Tapper:
                 await asyncio.sleep(delay=randint(6, 14))
 
                 # ТАПАЄМО
-                if settings.USE_TAPS:
+                if settings.USE_TAPS and datetime.now().hour > 8:
                     taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
 
                     profile_data = await send_taps(
@@ -647,7 +647,7 @@ class Tapper:
                 await asyncio.sleep(delay=randint(6, 14))
 
                 if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS:
-                    if settings.USE_TAPS:
+                    if settings.USE_TAPS and datetime.now().hour > 8:
                         boosts = await get_boosts(http_client=http_client)
                         energy_boost = next((boost for boost in boosts if boost['id'] == 'BoostFullAvailableTaps'), {})
 
@@ -687,7 +687,7 @@ class Tapper:
                 logger.error(f"{self.session_name} | Unknown error: {error}")
                 await asyncio.sleep(delay=3)
 
-            if settings.USE_TAPS:
+            if settings.USE_TAPS and datetime.now().hour > 8:
                 sleep_between_clicks = randint(a=settings.SLEEP_BETWEEN_TAP[0], b=settings.SLEEP_BETWEEN_TAP[1])
 
                 logger.info(f"Sleep <lw>{sleep_between_clicks}s</lw>")
