@@ -23,7 +23,7 @@ from bot.api.clicker import (
     get_ip_info,
     get_account_info,
     get_skins,
-    send_taps)
+    send_taps, buy_skin, select_skin)
 from bot.api.boosts import get_boosts, apply_boost
 from bot.api.upgrades import get_upgrades, buy_upgrade
 from bot.api.combo import claim_daily_combo, get_combo_cards
@@ -491,6 +491,9 @@ class Tapper:
                     found_keys = sum([promo['receiveKeysToday'] for promo in promo_states])
 
                     all_keys = len(promo_states) * 4
+
+                    logger.info(
+                        f"{self.session_name} | <lg>{found_keys}</lg> keys out of <lg>{all_keys}</lg> are activated!")
 
                     if found_keys >= (all_keys * settings.PER_ENTERED_KEYS) / 100:
                         break
