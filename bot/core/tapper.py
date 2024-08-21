@@ -126,7 +126,7 @@ class Tapper:
 
                     upgrades = upgrades_data['upgradesForBuy']
                     daily_combo = upgrades_data.get('dailyCombo')
-                    if daily_combo and settings.APPLY_COMBO:
+                    if daily_combo and settings.APPLY_COMBO and datetime.now().hour > 8:
                         bonus = daily_combo['bonusCoins']
                         is_claimed = daily_combo['isClaimed']
                         upgraded_list = daily_combo['upgradeIds']
@@ -198,7 +198,7 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                    if settings.APPLY_DAILY_REWARD:
+                    if settings.APPLY_DAILY_REWARD and datetime.now().hour > 8:
                         tasks = await get_tasks(http_client=http_client)
 
                         daily_task = tasks[-1]
@@ -224,7 +224,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     daily_cipher = game_config.get('dailyCipher')
-                    if daily_cipher and settings.APPLY_DAILY_CIPHER:
+                    if daily_cipher and settings.APPLY_DAILY_CIPHER and datetime.now().hour > 8:
                         cipher = daily_cipher['cipher']
                         bonus = daily_cipher['bonusCoins']
                         is_claimed = daily_cipher['isClaimed']
@@ -243,7 +243,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     daily_mini_game = game_config.get('dailyKeysMiniGame')
-                    if daily_mini_game and settings.APPLY_DAILY_MINI_GAME:
+                    if daily_mini_game and settings.APPLY_DAILY_MINI_GAME and datetime.now().hour > 8:
                         is_claimed = daily_mini_game['isClaimed']
                         seconds_to_next_attempt = daily_mini_game['remainSecondsToNextAttempt']
                         start_date = daily_mini_game['startDate']
@@ -292,7 +292,7 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                    if settings.AUTO_COMPLETE_TASKS:
+                    if settings.AUTO_COMPLETE_TASKS and datetime.now().hour > 8:
                         tasks = await get_tasks(http_client=http_client)
                         for task in tasks:
                             task_id = task['id']
