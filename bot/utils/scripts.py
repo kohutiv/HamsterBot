@@ -175,18 +175,11 @@ async def get_mini_game_cipher(http_client: aiohttp.ClientSession,
         return ''
 
 
-# def generate_client_id():
-#     current_time = int(time.time() * 1000)
-#     random_part = random.randint(100, 999)
-#     random_first = int(str(current_time)[:10] + str(random_part))
-#
-#     return f"{random_first}-3472514666961597005"
-
-
 def generate_client_id():
-    timestamp = int(time.time() * 1000)
-    random_numbers = ''.join([str(random.randint(0, 9)) for _ in range(19)])
-    return f"{timestamp}-{random_numbers}"
+    time_ms = int(time.time() * 1000)
+    rand_num = "34" + str(random.randint(10000000000000000, 99999999999999999))
+
+    return f"{time_ms}-{rand_num}"
 
 
 def generate_event_id():
