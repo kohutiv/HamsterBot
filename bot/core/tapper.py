@@ -457,8 +457,6 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(6, 14))
 
-
-
                     # Підбираємо коди
                     if settings.APPLY_PROMO_CODES and datetime.now().hour > 8:
 
@@ -590,7 +588,7 @@ class Tapper:
                                     f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate "
                                     f"new promo code")
 
-                                countdown_timer(promo_delay)
+                                # countdown_timer(promo_delay)
 
                                 promo_code = await get_promo_code(app_token=app_token,
                                                                   promo_id=promo_id,
@@ -622,7 +620,7 @@ class Tapper:
 
                                 await asyncio.sleep(delay=2)
 
-                            break
+                            # break
 
                     await asyncio.sleep(delay=randint(6, 14))
 
