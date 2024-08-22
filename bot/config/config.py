@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     BUY_RATIO: float = 0.00007
 
     BALANCE_TO_SAVE: int = 1_000_000
-    UPGRADES_COUNT: int = 10
+    UPGRADES_COUNT: int = 7
 
     MAX_COMBO_PRICE: int = 10000000
 
