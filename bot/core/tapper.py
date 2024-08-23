@@ -713,9 +713,9 @@ class Tapper:
                         if not proxy_conn.closed:
                             proxy_conn.close()
 
-                    logger.info(f"<lr>***************************</lr>")
-                    logger.info(f"<lr>Закрив сесію. Пішов спати )</lr>")
-                    logger.info("<lr>****************************</lr>")
+                    logger.info("<lr>***************************</lr>")
+                    logger.info("<lr>Закрив сесію. Пішов спати )</lr>")
+                    logger.info(f"<lr>**************************</lr>")
 
                     random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
 
