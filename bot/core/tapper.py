@@ -548,7 +548,7 @@ class Tapper:
                                       "promoId": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
                                       "minWaitAfterLogin": 30}]
 
-                        # apps_info = await get_apps_info(http_client=http_client)
+                        apps_info = await get_apps_info(http_client=http_client)
                         apps = {
                             app['promoId']: {
                                 'appToken': app['appToken'],
