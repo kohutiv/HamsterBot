@@ -129,7 +129,8 @@ class Tapper:
 
                     upgrades = upgrades_data['upgradesForBuy']
                     daily_combo = upgrades_data.get('dailyCombo')
-                    if daily_combo and settings.APPLY_COMBO and datetime.now().hour > 8:
+
+                    if daily_combo and settings.APPLY_COMBO and datetime.now().hour >= settings.WAKE_UP:
                         bonus = daily_combo['bonusCoins']
                         is_claimed = daily_combo['isClaimed']
                         upgraded_list = daily_combo['upgradeIds']
@@ -201,7 +202,7 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                    if settings.APPLY_DAILY_REWARD and datetime.now().hour > 8:
+                    if settings.APPLY_DAILY_REWARD and datetime.now().hour >= settings.WAKE_UP:
                         tasks = await get_tasks(http_client=http_client)
 
                         daily_task = tasks[-1]
@@ -227,7 +228,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     daily_cipher = game_config.get('dailyCipher')
-                    if daily_cipher and settings.APPLY_DAILY_CIPHER and datetime.now().hour > 8:
+                    if daily_cipher and settings.APPLY_DAILY_CIPHER and datetime.now().hour >= settings.WAKE_UP:
                         cipher = daily_cipher['cipher']
                         bonus = daily_cipher['bonusCoins']
                         is_claimed = daily_cipher['isClaimed']
@@ -246,7 +247,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     daily_mini_game = game_config.get('dailyKeysMiniGame')
-                    if daily_mini_game and settings.APPLY_DAILY_MINI_GAME and datetime.now().hour > 8:
+                    if daily_mini_game and settings.APPLY_DAILY_MINI_GAME and datetime.now().hour >= settings.WAKE_UP:
                         is_claimed = daily_mini_game['isClaimed']
                         seconds_to_next_attempt = daily_mini_game['remainSecondsToNextAttempt']
                         start_date = daily_mini_game['startDate']
@@ -295,7 +296,7 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                    if settings.AUTO_COMPLETE_TASKS and datetime.now().hour > 8:
+                    if settings.AUTO_COMPLETE_TASKS and datetime.now().hour >= settings.WAKE_UP:
                         tasks = await get_tasks(http_client=http_client)
                         for task in tasks:
                             task_id = task['id']
@@ -336,7 +337,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     # Купляємо скіни
-                    if settings.AUTO_BUY_SKINS and datetime.now().hour > 8:
+                    if settings.AUTO_BUY_SKINS and datetime.now().hour >= settings.WAKE_UP:
                         try:
                             skins = (
                                 await get_version_config(http_client=http_client, config_version=config_version)).get(
@@ -383,7 +384,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(6, 14))
 
                     # Качаємо картки
-                    if settings.AUTO_UPGRADE and datetime.now().hour > 8:
+                    if settings.AUTO_UPGRADE and datetime.now().hour >= settings.WAKE_UP:
                         for _ in range(settings.UPGRADES_COUNT):
                             available_upgrades = [
                                 data for data in upgrades
@@ -458,7 +459,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(6, 14))
 
                     # Підбираємо коди
-                    if settings.APPLY_PROMO_CODES and datetime.now().hour > 8:
+                    if settings.APPLY_PROMO_CODES and datetime.now().hour >= settings.WAKE_UP:
 
                         promos_data = await get_promos(http_client=http_client)
                         promo_states = promos_data.get('states', [])
@@ -474,51 +475,6 @@ class Tapper:
 
                         if found_keys >= int((all_keys * settings.PER_ENTERED_KEYS) / 100):
                             continue
-
-                        apps = {
-                            'BIKE': {
-                                'appToken': 'd28721be-fd2d-4b45-869e-9f253b554e50',
-                                'promoId': '43e35910-c168-4634-ad4f-52fd764a843f',
-                                'interval': 20,
-                                'eventCount': 13,
-                            },
-                            'CUBE': {
-                                'appToken': 'd1690a07-3780-4068-810f-9b5bbf2931b2',
-                                'promoId': 'b4170868-cef0-424f-8eb9-be0622e8e8e3',
-                                'interval': 20,
-                                'eventCount': 3,
-                            },
-                            'CLONE': {
-                                'appToken': '74ee0b5b-775e-4bee-974f-63e7f4d5bacb',
-                                'promoId': 'fe693b26-b342-4159-8808-15e3ff7f8767',
-                                'interval': 120,
-                                'eventCount': 5,
-                            },
-                            'TRAIN': {
-                                'appToken': '82647f43-3f87-402d-88dd-09a90025313f',
-                                'promoId': 'c4480ac7-e178-4973-8061-9ed5b2e17954',
-                                'interval': 120,
-                                'eventCount': 1,
-                            },
-                            'MERGEAWAY': {
-                                'appToken': '8d1cc2ad-e097-4b86-90ef-7a27e19fb833',
-                                'promoId': 'dc128d28-c45b-411c-98ff-ac7726fbaea4',
-                                'interval': 21,
-                                'eventCount': 7,
-                            },
-                            'TWERK': {
-                                'appToken': '61308365-9d16-4040-8bb0-2f4a4c69074c',
-                                'promoId': '61308365-9d16-4040-8bb0-2f4a4c69074c',
-                                'interval': 20,
-                                'eventCount': 10,
-                            },
-                            'POLY': {
-                                'appToken': '2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71',
-                                'promoId': '2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71',
-                                'interval': 30,
-                                'eventCount': 16,
-                            }
-                        }
 
                         apps_info = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
                                       "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
@@ -634,7 +590,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(6, 14))
 
                 # Качаємо картки
-                if settings.AUTO_UPGRADE and datetime.now().hour > 8:
+                if settings.AUTO_UPGRADE and datetime.now().hour >= settings.WAKE_UP:
                     for _ in range(settings.UPGRADES_COUNT):
                         available_upgrades = [
                             data for data in upgrades
@@ -709,7 +665,7 @@ class Tapper:
                 await asyncio.sleep(delay=randint(6, 14))
 
                 # ТАПАЄМО
-                if settings.USE_TAPS and datetime.now().hour > 8:
+                if settings.USE_TAPS and datetime.now().hour >= settings.WAKE_UP:
                     taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
 
                     profile_data = await send_taps(
@@ -733,7 +689,7 @@ class Tapper:
 
                 await asyncio.sleep(delay=randint(6, 14))
 
-                if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS or not datetime.now().hour > 8:
+                if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS or not datetime.now().hour >= settings.WAKE_UP:
                     if settings.USE_TAPS and datetime.now().hour > 8:
                         boosts = await get_boosts(http_client=http_client)
                         energy_boost = next((boost for boost in boosts if boost['id'] == 'BoostFullAvailableTaps'), {})
@@ -757,9 +713,9 @@ class Tapper:
                         if not proxy_conn.closed:
                             proxy_conn.close()
 
-                    print('***************')
-                    print('Закрили сесію')
-                    print('***************')
+                    logger.info(f"<lr>***************************</lr>")
+                    logger.info(f"<lr>Закрив сесію. Пішов спати )</lr>")
+                    logger.info("<lr>****************************</lr>")
 
                     random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
 
@@ -779,7 +735,7 @@ class Tapper:
                 logger.error(f"{self.session_name} | Unknown error: {error}")
                 await asyncio.sleep(delay=3)
 
-            if settings.USE_TAPS and datetime.now().hour > 8:
+            if settings.USE_TAPS and datetime.now().hour >= settings.WAKE_UP:
                 sleep_between_clicks = randint(a=settings.SLEEP_BETWEEN_TAP[0], b=settings.SLEEP_BETWEEN_TAP[1])
 
                 logger.info(f"Sleep <lw>{sleep_between_clicks}s</lw>")

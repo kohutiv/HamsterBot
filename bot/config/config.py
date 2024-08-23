@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     API_ID: int
     API_HASH: str
 
+    WAKE_UP: int = 8
+
     MIN_AVAILABLE_ENERGY: int = 200
     SLEEP_BY_MIN_ENERGY: list[int] = [1800, 3600]
 
