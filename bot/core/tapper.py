@@ -72,7 +72,7 @@ class Tapper:
                     proxy_conn = aiohttp_proxy.ProxyConnector().from_url(proxy) if proxy else None
                     http_client = aiohttp.ClientSession(headers=headers, connector=proxy_conn)
 
-                if time() - access_token_created_time >= 7200:
+                if time() - access_token_created_time >= 1000:
                     http_client.headers.pop('Authorization', None)
 
                     await get_nuxt_builds(http_client=http_client)
