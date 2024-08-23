@@ -546,9 +546,18 @@ class Tapper:
 
                                      {"appToken": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
                                       "promoId": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
-                                      "minWaitAfterLogin": 30}]
+                                      "minWaitAfterLogin": 30},
 
-                        apps_info = await get_apps_info(http_client=http_client)
+                                     {"promoId": "8814a785-97fb-4177-9193-ca4180ff9da8",
+                                      "appToken": "8814a785-97fb-4177-9193-ca4180ff9da8",
+                                      "minWaitAfterLogin": 31},
+
+                                     {"promoId": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
+                                      "appToken": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
+                                      "minWaitAfterLogin": 31}
+                                     ]
+
+                        # apps_info = await get_apps_info(http_client=http_client)
                         apps = {
                             app['promoId']: {
                                 'appToken': app['appToken'],
