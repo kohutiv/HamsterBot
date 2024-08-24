@@ -717,9 +717,12 @@ class Tapper:
                     logger.info("<lr>Закрив сесію. Пішов спати )</lr>")
                     logger.info(f"<lr>**************************</lr>")
 
-                    random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
+                    if datetime.now().hour >= settings.WAKE_UP:
+                        random_sleep = randint(2100, 3400)
+                    else:
+                        random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
 
-                    if settings.USE_TAPS and datetime.now().hour > 8:
+                    if settings.USE_TAPS and datetime.now().hour >= settings.WAKE_UP:
                         logger.info(f"{self.session_name} | Minimum energy reached: <ly>{available_energy:.0f}</ly>")
                     logger.info(f"{self.session_name} | Sleep <lw>{random_sleep:,}s</lw>")
 
