@@ -547,7 +547,7 @@ class Tapper:
 
                             while today_promo_activates_count < keys_per_day:
 
-                                promo_delay = randint(350, 620)
+                                promo_delay = randint(310, 470)
 
                                 logger.info(
                                     f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate "
