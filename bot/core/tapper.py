@@ -585,7 +585,7 @@ class Tapper:
 
                                 await asyncio.sleep(delay=2)
 
-                                break
+                            break
 
                     await asyncio.sleep(delay=randint(6, 14))
 
