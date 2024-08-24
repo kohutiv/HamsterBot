@@ -21,15 +21,15 @@ logger = logger.opt(colors=True)
 
 
 def countdown_timer(seconds):
-    print(f"{hju}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", flush=True)
-
     while seconds:
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
         h = str(h).zfill(2)
         m = str(m).zfill(2)
         s = str(s).zfill(2)
-        print(f"{hju}Please wait until {h}:{m}:{s} ", flush=True, end="\r")
+        print(f"{pth}Please wait until {h}:{m}:{s} ", flush=True, end="\r")
         seconds -= 1
         sleep(1)
-    print(f"{hju}Please wait until {h}:{m}:{s} ", flush=True, end="\r")
+    print(f"{pth}Please wait until {h}:{m}:{s} ", flush=True, end="\r")
+
+
