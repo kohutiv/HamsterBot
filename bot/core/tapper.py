@@ -470,16 +470,16 @@ class Tapper:
                         found_keys = sum([promo['receiveKeysToday'] for promo in promo_states])
 
                         all_keys = len(promo_states) * 4
+
                         logger.info(
                             f"{self.session_name} | <lg>{found_keys}</lg> keys out of <lg>{all_keys}</lg> are activated!")
 
                         if found_keys >= int((all_keys * settings.PER_ENTERED_KEYS) / 100):
                             continue
 
-                        apps_info = [
-                                     # {"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
-                                     #  "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
-                                     #  "minWaitAfterLogin": 120},
+                        apps_info = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
+                                      "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
+                                      "minWaitAfterLogin": 120},
 
                                      {"appToken": "d1690a07-3780-4068-810f-9b5bbf2931b2",
                                       "promoId": "b4170868-cef0-424f-8eb9-be0622e8e8e3",
