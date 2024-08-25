@@ -476,9 +476,10 @@ class Tapper:
                         if found_keys >= int((all_keys * settings.PER_ENTERED_KEYS) / 100):
                             continue
 
-                        apps_info = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
-                                      "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
-                                      "minWaitAfterLogin": 120},
+                        apps_info = [
+                                     # {"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
+                                     #  "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
+                                     #  "minWaitAfterLogin": 120},
 
                                      {"appToken": "d1690a07-3780-4068-810f-9b5bbf2931b2",
                                       "promoId": "b4170868-cef0-424f-8eb9-be0622e8e8e3",
@@ -718,7 +719,7 @@ class Tapper:
                     logger.info(f"<lr>**************************</lr>")
 
                     if datetime.now().hour >= settings.WAKE_UP:
-                        random_sleep = randint(2100, 3400)
+                        random_sleep = randint(2500, 3610)
                     else:
                         random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
 
