@@ -60,6 +60,13 @@ def get_headers(name: str):
         )
         headers['User-Agent'] = get_mobile_user_agent()
 
+        if not profiles.get(name):
+            profiles[name] = {"proxy": "", "headers": headers}
+        else:
+            profiles[name]["headers"] = headers
+
+        db.save_data(profiles)
+
     return headers
 
 
@@ -67,9 +74,7 @@ def get_fingerprint(name: str):
     db = JsonDB("profiles")
 
     profiles = db.get_data()
-
     fingerprint = profiles.get(name, {}).get('fingerprint', DEFAULT_FINGERPRINT)
-
     fingerprint['visitorId'] = generate_random_visitor_id()
 
     return fingerprint
@@ -256,7 +261,6 @@ async def get_promo_code(app_token: str,
                         logger.info(f"{session_name} | "
                                     f"Promo code is found for <lm>{promo_title}</lm> game: <lc>{promo_code}</lc>")
                         return promo_code
-
             except Exception as error:
                 logger.debug(f"{session_name} | Error while getting promo code: {error}")
 
