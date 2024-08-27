@@ -1,6 +1,5 @@
 import asyncio
 import argparse
-from itertools import cycle
 
 from pyrogram import Client
 
@@ -23,7 +22,7 @@ options = """
 Select an action:
 
     1. Create session
-    2. Run clicker
+    2. Run bot
 """
 
 
@@ -34,7 +33,10 @@ async def get_tg_clients() -> list[Client]:
         raise FileNotFoundError("Not found session files")
 
     if not settings.API_ID or not settings.API_HASH:
-        raise ValueError("API_ID and API_HASH not found in the .env file.")
+        raise ValueError("API_ID and API_HASH not found in the .env file.\n\n"
+                         "1. Go to https://my.telegram.org and log in using your phone number.\n"
+                         "2. Select \"API development tools\" and fill out the form to register a new application.\n"
+                         "3. Note down the API_ID and API_HASH in .env file provided after registering your application.")
 
     tg_clients = [Client(
         name=session_name,
