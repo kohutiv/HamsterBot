@@ -62,8 +62,9 @@ class Tapper:
         if not tg_web_data:
             if not http_client.closed:
                 await http_client.close()
-            if not proxy_conn.closed:
-                proxy_conn.close()
+            if proxy_conn:
+                if not proxy_conn.closed:
+                    proxy_conn.close()
 
             return
 
@@ -516,6 +517,10 @@ class Tapper:
 
                                      {"promoId": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
                                       "appToken": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
+                                      "minWaitAfterLogin": 31},
+
+                                     {"promoId": "bc0971b8-04df-4e72-8a3e-ec4dc663cd11",
+                                      "appToken": "bc0971b8-04df-4e72-8a3e-ec4dc663cd11",
                                       "minWaitAfterLogin": 31}
                                      ]
 
