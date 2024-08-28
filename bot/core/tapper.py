@@ -539,8 +539,8 @@ class Tapper:
                         for promo in promos:
                             promo_id = promo['promoId']
                             app = apps.get(promo_id)
-                            app_token = app['appToken']
-                            event_timeout = app['event_timeout']
+                            app_token = app.get('appToken')
+                            event_timeout = app.get('event_timeout')
 
                             if not app_token:
                                 continue
