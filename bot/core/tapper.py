@@ -297,6 +297,7 @@ class Tapper:
                             elif seconds_to_next_attempt > 0:
                                 logger.info(f"{self.session_name} | "
                                             f"Need <lw>{seconds_to_next_attempt}s</lw> to next attempt in Mini Game")
+
                             elif not encoded_body:
                                 logger.info(f"{self.session_name} | Key for Mini Game is not found")
 
