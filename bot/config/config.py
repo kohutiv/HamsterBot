@@ -13,15 +13,15 @@ class Settings(BaseSettings):
     SLEEP_BY_MIN_ENERGY: list[int] = [1800, 3600]
 
     AUTO_UPGRADE: bool = False
-    MAX_LEVEL: int = 20
-    MAX_PRICE: int = 50_000_000
+    MAX_LEVEL: int = 50
+    MAX_PRICE: int = 200_000_000
 
     BUY_RATIO: float = 0.00007
 
     BALANCE_TO_SAVE: int = 1_000_000
     UPGRADES_COUNT: int = 7
 
-    MAX_COMBO_PRICE: int = 10000000
+    MAX_COMBO_PRICE: int = 10_000_000
 
     APPLY_COMBO: bool = True
 
