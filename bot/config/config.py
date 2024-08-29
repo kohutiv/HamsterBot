@@ -32,6 +32,10 @@ class Settings(BaseSettings):
     APPLY_DAILY_REWARD: bool = True
     APPLY_DAILY_ENERGY: bool = True
     APPLY_DAILY_MINI_GAME: bool = True
+
+    SLEEP_MINI_GAME_TILES: list[int] = [600, 900]
+    SCORE_MINI_GAME_TILES: list[int] = [300, 500]
+    GAMES_COUNT: list[int] = [1, 10]
     
     AUTO_BUY_SKINS: bool = False
     MAX_PRICE_SKIN: int = 1_000_000
