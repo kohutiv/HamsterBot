@@ -623,7 +623,7 @@ class Tapper:
                             },
                             {
                                 "promoId": "c7821fa7-6632-482c-9635-2bd5798585f9",
-                                "appToken": "c7821fa7-6632-482c-9635-2bd5798585f9",
+                                "appToken": "b6de60a0-e030-48bb-a551-548372493523",
                                 "minWaitAfterLogin": 31,
                                 "name": "Ganswar"
                             }
