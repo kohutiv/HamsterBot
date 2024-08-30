@@ -624,12 +624,12 @@ class Tapper:
                             {
                                 "promoId": "c7821fa7-6632-482c-9635-2bd5798585f9",
                                 "appToken": "b6de60a0-e030-48bb-a551-548372493523",
-                                "minWaitAfterLogin": 60,
+                                "minWaitAfterLogin": 61,
                                 "name": "Gangs Wars"
                             }
                         ]
 
-                        apps_info = await get_apps_info(http_client=http_client)
+                        # apps_info = await get_apps_info(http_client=http_client)
                         apps = {
                             app['promoId']: {
                                 'appToken': app['appToken'],
