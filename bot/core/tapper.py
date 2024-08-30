@@ -135,7 +135,6 @@ class Tapper:
 
                     available_energy = profile_data.get('availableTaps', 0)
 
-
                     upgrades = upgrades_data['upgradesForBuy']
                     daily_combo = upgrades_data.get('dailyCombo')
 
@@ -301,7 +300,8 @@ class Tapper:
                         else:
                             if is_claimed:
                                 logger.info(
-                                    f"{self.session_name} | Daily Mini Game <lm>{mini_game_id}</lm> already claimed today")
+                                    f"{self.session_name} | Daily Mini Game <lm>{mini_game_id}</lm> already claimed "
+                                    f"today")
                             elif seconds_to_next_attempt > 0:
                                 logger.info(f"{self.session_name} | "
                                             f"Need <lw>{seconds_to_next_attempt}s</lw> to next attempt in Mini Game <lm>{mini_game_id}</lm>")
@@ -358,11 +358,12 @@ class Tapper:
                                         balance = new_balance
 
                                         logger.success(
-                                            f"{self.session_name} | Successfully claimed Mini Game <lm>{mini_game_id}</lm> | "
+                                            f"{self.session_name} | Successfully claimed Mini Game <lm>{mini_game_id}</lm> |"
                                             f"Balance <le>{balance:,}</le> (<lg>+{bonus:,}</lg>)")
                             else:
                                 if is_claimed:
-                                    logger.info(f"{self.session_name} | Daily Mini Game already claimed today")
+                                    logger.info(f"{self.session_name} | Daily Mini Game <lm>{mini_game_id}</lm> "
+                                                f"already claimed today")
                                 elif seconds_to_next_attempt > 0:
                                     logger.info(f"{self.session_name} | "
                                                 f"Need <lw>{seconds_to_next_attempt}s</lw> to next attempt in Mini Game")
@@ -552,46 +553,74 @@ class Tapper:
                         if found_keys >= int((all_keys * settings.PER_ENTERED_KEYS) / 100):
                             continue
 
-                        apps_info = [{"appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
-                                      "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
-                                      "minWaitAfterLogin": 120},
-
-                                     {"appToken": "d1690a07-3780-4068-810f-9b5bbf2931b2",
-                                      "promoId": "b4170868-cef0-424f-8eb9-be0622e8e8e3",
-                                      "minWaitAfterLogin": 20},
-
-                                     {"appToken": "82647f43-3f87-402d-88dd-09a90025313f",
-                                      "promoId": "c4480ac7-e178-4973-8061-9ed5b2e17954",
-                                      "minWaitAfterLogin": 120},
-
-                                     {"appToken": "d28721be-fd2d-4b45-869e-9f253b554e50",
-                                      "promoId": "43e35910-c168-4634-ad4f-52fd764a843f",
-                                      "minWaitAfterLogin": 20},
-
-                                     {"appToken": "8d1cc2ad-e097-4b86-90ef-7a27e19fb833",
-                                      "promoId": "dc128d28-c45b-411c-98ff-ac7726fbaea4",
-                                      "minWaitAfterLogin": 21},
-
-                                     {"appToken": "61308365-9d16-4040-8bb0-2f4a4c69074c",
-                                      "promoId": "61308365-9d16-4040-8bb0-2f4a4c69074c",
-                                      "minWaitAfterLogin": 20},
-
-                                     {"appToken": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
-                                      "promoId": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
-                                      "minWaitAfterLogin": 30},
-
-                                     {"promoId": "8814a785-97fb-4177-9193-ca4180ff9da8",
-                                      "appToken": "8814a785-97fb-4177-9193-ca4180ff9da8",
-                                      "minWaitAfterLogin": 31},
-
-                                     {"promoId": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
-                                      "appToken": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
-                                      "minWaitAfterLogin": 31},
-
-                                     {"promoId": "bc0971b8-04df-4e72-8a3e-ec4dc663cd11",
-                                      "appToken": "bc0971b8-04df-4e72-8a3e-ec4dc663cd11",
-                                      "minWaitAfterLogin": 31}
-                                     ]
+                        apps_info = [
+                            # {
+                            #     "promoId": "c4480ac7-e178-4973-8061-9ed5b2e17954",
+                            #     "appToken": "82647f43-3f87-402d-88dd-09a90025313f",
+                            #     "minWaitAfterLogin": 121,
+                            #     "name": "BIKE"
+                            # },
+                            # {
+                            #     "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
+                            #     "appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
+                            #     "minWaitAfterLogin": 121,
+                            #     "name": "CLONE"
+                            # },
+                            {
+                                "promoId": "b4170868-cef0-424f-8eb9-be0622e8e8e3",
+                                "appToken": "d1690a07-3780-4068-810f-9b5bbf2931b2",
+                                "minWaitAfterLogin": 21,
+                                "name": "CUBE"
+                            },
+                            {
+                                "promoId": "43e35910-c168-4634-ad4f-52fd764a843f",
+                                "appToken": "d28721be-fd2d-4b45-869e-9f253b554e50",
+                                "minWaitAfterLogin": 21,
+                                "name": "TRAIN"
+                            },
+                            {
+                                "promoId": "dc128d28-c45b-411c-98ff-ac7726fbaea4",
+                                "appToken": "8d1cc2ad-e097-4b86-90ef-7a27e19fb833",
+                                "minWaitAfterLogin": 21,
+                                "name": "MERGE AWAY"
+                            },
+                            {
+                                "promoId": "61308365-9d16-4040-8bb0-2f4a4c69074c",
+                                "appToken": "61308365-9d16-4040-8bb0-2f4a4c69074c",
+                                "minWaitAfterLogin": 21,
+                                "name": "TWERK"
+                            },
+                            {
+                                "promoId": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
+                                "appToken": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
+                                "minWaitAfterLogin": 31,
+                                "name": "POLY"
+                            },
+                            {
+                                "promoId": "8814a785-97fb-4177-9193-ca4180ff9da8",
+                                "appToken": "8814a785-97fb-4177-9193-ca4180ff9da8",
+                                "minWaitAfterLogin": 31,
+                                "name": "RACE"
+                            },
+                            {
+                                "promoId": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
+                                "appToken": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
+                                "minWaitAfterLogin": 31,
+                                "name": "TRIM"
+                            },
+                            {
+                                "promoId": "bc0971b8-04df-4e72-8a3e-ec4dc663cd11",
+                                "appToken": "bc0971b8-04df-4e72-8a3e-ec4dc663cd11",
+                                "minWaitAfterLogin": 31,
+                                "name": "CafeDash"
+                            },
+                            {
+                                "promoId": "b2436c89-e0aa-4aed-8046-9b0515e1c46b",
+                                "appToken": "b2436c89-e0aa-4aed-8046-9b0515e1c46b",
+                                "minWaitAfterLogin": 31,
+                                "name": "Zoopolis"
+                            }
+                        ]
 
                         # apps_info = await get_apps_info(http_client=http_client)
                         apps = {
