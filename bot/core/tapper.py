@@ -551,8 +551,8 @@ class Tapper:
                         logger.info(
                             f"{self.session_name} | <lg>{found_keys}</lg> keys out of <lg>{all_keys}</lg> are activated!")
 
-                        if found_keys >= int((all_keys * settings.PER_ENTERED_KEYS) / 100):
-                            continue
+                        # if found_keys >= int((all_keys * settings.PER_ENTERED_KEYS) / 100):
+                        #     continue
 
                         apps_info = [
                             {
@@ -643,6 +643,9 @@ class Tapper:
 
                         for promo in promos:
                             promo_id = promo['promoId']
+
+                            # promo_id = 'c7821fa7-6632-482c-9635-2bd5798585f'
+
                             app = apps.get(promo_id)
 
                             if not app:
