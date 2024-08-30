@@ -644,8 +644,6 @@ class Tapper:
                         for promo in promos:
                             promo_id = promo['promoId']
 
-                            # promo_id = 'c7821fa7-6632-482c-9635-2bd5798585f'
-
                             app = apps.get(promo_id)
 
                             if not app:
