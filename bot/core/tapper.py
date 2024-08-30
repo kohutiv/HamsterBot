@@ -555,12 +555,12 @@ class Tapper:
                             continue
 
                         apps_info = [
-                            # {
-                            #     "promoId": "c4480ac7-e178-4973-8061-9ed5b2e17954",
-                            #     "appToken": "82647f43-3f87-402d-88dd-09a90025313f",
-                            #     "minWaitAfterLogin": 20,
-                            #     "name": "Bike Ride 3D"
-                            # },
+                            {
+                                "promoId": "c4480ac7-e178-4973-8061-9ed5b2e17954",
+                                "appToken": "82647f43-3f87-402d-88dd-09a90025313f",
+                                "minWaitAfterLogin": 20,
+                                "name": "Bike Ride 3D"
+                            },
                             {
                                 "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
                                 "appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
