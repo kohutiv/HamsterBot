@@ -554,18 +554,18 @@ class Tapper:
                             continue
 
                         apps_info = [
-                            # {
-                            #     "promoId": "c4480ac7-e178-4973-8061-9ed5b2e17954",
-                            #     "appToken": "82647f43-3f87-402d-88dd-09a90025313f",
-                            #     "minWaitAfterLogin": 121,
-                            #     "name": "BIKE"
-                            # },
-                            # {
-                            #     "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
-                            #     "appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
-                            #     "minWaitAfterLogin": 121,
-                            #     "name": "CLONE"
-                            # },
+                            {
+                                "promoId": "c4480ac7-e178-4973-8061-9ed5b2e17954",
+                                "appToken": "82647f43-3f87-402d-88dd-09a90025313f",
+                                "minWaitAfterLogin": 121,
+                                "name": "BIKE"
+                            },
+                            {
+                                "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
+                                "appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
+                                "minWaitAfterLogin": 121,
+                                "name": "CLONE"
+                            },
                             {
                                 "promoId": "b4170868-cef0-424f-8eb9-be0622e8e8e3",
                                 "appToken": "d1690a07-3780-4068-810f-9b5bbf2931b2",
@@ -619,6 +619,12 @@ class Tapper:
                                 "appToken": "b2436c89-e0aa-4aed-8046-9b0515e1c46b",
                                 "minWaitAfterLogin": 31,
                                 "name": "Zoopolis"
+                            },
+                            {
+                                "promoId": "c7821fa7-6632-482c-9635-2bd5798585f9",
+                                "appToken": "c7821fa7-6632-482c-9635-2bd5798585f9",
+                                "minWaitAfterLogin": 31,
+                                "name": "Ganswar"
                             }
                         ]
 
