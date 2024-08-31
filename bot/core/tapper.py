@@ -128,8 +128,11 @@ class Tapper:
                     total_keys = profile_data.get('totalKeys', 0)
                     balance = int(profile_data.get('balanceCoins', 0))
 
+                    total = int(profile_data.get('totalCoins', 0))
+
                     logger.info(f"{self.session_name} | Total balance: <lg>+{balance:,}</lg> | "
-                                f"Balance to save: <ly>{settings.BALANCE_TO_SAVE:,}</ly>")
+                                f"Balance to save: <ly>{settings.BALANCE_TO_SAVE:,}</ly> | "
+                                f"Total: <ly>{total:,}</ly>")
 
                     logger.info(f"{self.session_name} | Last passive earn: <lg>+{last_passive_earn:,}</lg> | "
                                 f"Earn every hour: <ly>{earn_on_hour:,}</ly> | Total keys: <le>{total_keys}</le>")
