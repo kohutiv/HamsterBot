@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Tuple, Dict
 
 import aiohttp
 
@@ -22,7 +22,7 @@ async def start_daily_mini_game(
 
 async def claim_daily_mini_game(
         http_client: aiohttp.ClientSession, cipher: str, mini_game_id: str
-) -> tuple[dict[Any, Any], dict[Any, Any]]:
+) -> tuple[dict[Any, Any] | None | Any, dict[Any, Any] | None | Any, int]:
     response_json = await make_request(
         http_client,
         'POST',

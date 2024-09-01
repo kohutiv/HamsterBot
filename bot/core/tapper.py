@@ -168,7 +168,7 @@ class Tapper:
 
                             if start_bonus_round <= datetime.now() < end_bonus_round:
                                 common_price = sum([upgrade['price'] for upgrade in available_combo_cards])
-                                need_cards_count = len(cards)
+                                need_cards_count = 3 - len(upgraded_list)
                                 possible_cards_count = len(available_combo_cards)
                                 is_combo_accessible = need_cards_count == possible_cards_count
 
@@ -259,7 +259,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     daily_mini_game = game_config.get('dailyKeysMiniGames')
-                    if daily_mini_game and settings.APPLY_DAILY_MINI_GAME:
+                    if daily_mini_game and settings.APPLY_DAILY_MINI_GAME and datetime.now().hour >= settings.WAKE_UP:
                         candles_mini_game = daily_mini_game.get('Candles')
                         if candles_mini_game:
                             is_claimed = candles_mini_game['isClaimed']
