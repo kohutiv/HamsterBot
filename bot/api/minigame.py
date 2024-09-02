@@ -38,12 +38,12 @@ async def claim_daily_mini_game(
         'dailyKeysMiniGames', {})
     bonus = int(response_json.get('bonus') or response_json.get('found', {}).get('bonus', 0))
 
-    print('profile_data', profile_data)
-    print()
-    print('daily_mini_game', daily_mini_game)
-    print()
-    print('bonus', bonus)
-
-    input()
+    # print('profile_data', profile_data)
+    # print()
+    # print('daily_mini_game', daily_mini_game)
+    # print()
+    # print('bonus', bonus)
+    #
+    # input()
 
     return profile_data, daily_mini_game, bonus
