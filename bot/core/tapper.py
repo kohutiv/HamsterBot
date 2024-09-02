@@ -316,6 +316,12 @@ class Tapper:
                             daily_mini_game = game_config.get('dailyKeysMiniGames')
                             if daily_mini_game and settings.APPLY_DAILY_MINI_GAME:
                                 tiles_mini_game = daily_mini_game.get('Tiles')
+
+
+                                print('tiles_mini_game - ', tiles_mini_game)
+
+                                input()
+
                                 if tiles_mini_game:
                                     is_claimed = tiles_mini_game['isClaimed']
                                     seconds_to_next_attempt = tiles_mini_game['remainSecondsToNextAttempt']
