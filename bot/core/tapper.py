@@ -317,7 +317,6 @@ class Tapper:
                             if daily_mini_game and settings.APPLY_DAILY_MINI_GAME:
                                 tiles_mini_game = daily_mini_game.get('Tiles')
 
-
                                 print('tiles_mini_game - ', tiles_mini_game)
 
                                 input()
@@ -329,14 +328,14 @@ class Tapper:
                                     mini_game_id = tiles_mini_game['id']
                                     remain_points = tiles_mini_game['remainPoints']
 
-                                if not is_claimed and remain_points > 0:
+                                if not is_claimed and remain_points > 20:
                                     game_sleep_time = randint(a=settings.SLEEP_MINI_GAME_TILES[0],
                                                               b=settings.SLEEP_MINI_GAME_TILES[1])
                                     game_score = randint(a=settings.SCORE_MINI_GAME_TILES[0],
                                                          b=settings.SCORE_MINI_GAME_TILES[1])
 
                                     if game_score > remain_points:
-                                        game_score = remain_points
+                                        game_score = remain_points - 20
 
                                     print('game_score - ', game_score)
 
