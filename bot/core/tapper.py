@@ -316,11 +316,6 @@ class Tapper:
                             daily_mini_game = game_config.get('dailyKeysMiniGames')
                             if daily_mini_game and settings.APPLY_DAILY_MINI_GAME:
                                 tiles_mini_game = daily_mini_game.get('Tiles')
-
-                                print('tiles_mini_game - ', tiles_mini_game)
-
-                                input()
-
                                 if tiles_mini_game:
                                     is_claimed = tiles_mini_game['isClaimed']
                                     seconds_to_next_attempt = tiles_mini_game['remainSecondsToNextAttempt']
@@ -328,7 +323,7 @@ class Tapper:
                                     mini_game_id = tiles_mini_game['id']
                                     remain_points = tiles_mini_game['remainPoints']
 
-                                if not is_claimed and remain_points > 20:
+                                if not is_claimed and remain_points > 0:
                                     game_sleep_time = randint(a=settings.SLEEP_MINI_GAME_TILES[0],
                                                               b=settings.SLEEP_MINI_GAME_TILES[1])
                                     game_score = randint(a=settings.SCORE_MINI_GAME_TILES[0],
@@ -336,12 +331,6 @@ class Tapper:
 
                                     if game_score > remain_points:
                                         game_score = remain_points
-                                        game_score = game_score - 20
-
-
-                                    print('game_score - ', game_score)
-
-                                    input()
 
                                     encoded_body = await get_mini_game_cipher(
                                         user_id=user_id,
