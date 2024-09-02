@@ -335,7 +335,9 @@ class Tapper:
                                                          b=settings.SCORE_MINI_GAME_TILES[1])
 
                                     if game_score > remain_points:
-                                        game_score = remain_points - 20
+                                        game_score = remain_points
+                                        game_score = game_score - 20
+
 
                                     print('game_score - ', game_score)
 
