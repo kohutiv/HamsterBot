@@ -338,6 +338,10 @@ class Tapper:
                                     if game_score > remain_points:
                                         game_score = remain_points
 
+                                    print('game_score - ', game_score)
+
+                                    input()
+
                                     encoded_body = await get_mini_game_cipher(
                                         user_id=user_id,
                                         start_date=start_date,
