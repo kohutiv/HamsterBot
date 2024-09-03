@@ -10,7 +10,7 @@ import aiohttp_proxy
 from pyrogram import Client
 
 from bot.config import settings
-from bot.utils.logger import logger, countdown_timer
+from bot.utils.logger import logger
 from bot.utils.proxy import check_proxy
 from bot.utils.tg_web_data import get_tg_web_data
 from bot.utils.scripts import decode_cipher, get_headers, get_mini_game_cipher, get_promo_code
@@ -517,9 +517,7 @@ class Tapper:
                                 logger.info(
                                     f'{self.session_name} | Sleep {cooldown_seconds + 12:,}s before upgrade <e>{coin_name}</e>')
 
-                                # await asyncio.sleep(delay=cooldown_seconds + 12)
-
-                                countdown_timer(cooldown_seconds + 12)
+                                await asyncio.sleep(delay=cooldown_seconds + 12)
 
                             else:
                                 continue
@@ -679,7 +677,7 @@ class Tapper:
                                     f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate "
                                     f"new promo code")
 
-                                countdown_timer(promo_delay)
+                                await asyncio.sleep(delay=promo_delay)
 
                                 promo_code = await get_promo_code(app_token=app_token,
                                                                   promo_id=promo_id,
@@ -767,9 +765,7 @@ class Tapper:
                             logger.info(
                                 f'{self.session_name} | Sleep {cooldown_seconds + 12:,}s before upgrade <e>{coin_name}</e>')
 
-                            # await asyncio.sleep(delay=cooldown_seconds + 12)
-
-                            countdown_timer(cooldown_seconds + 12)
+                            await asyncio.sleep(delay=cooldown_seconds + 12)
 
                         else:
                             continue
@@ -852,8 +848,7 @@ class Tapper:
                         logger.info(f"{self.session_name} | Minimum energy reached: <ly>{available_energy:.0f}</ly>")
                     logger.info(f"{self.session_name} | Sleep <lw>{random_sleep:,}s</lw>")
 
-                    # await asyncio.sleep(delay=random_sleep)
-                    countdown_timer(random_sleep)
+                    await asyncio.sleep(delay=random_sleep)
 
                     access_token_created_time = 0
 
