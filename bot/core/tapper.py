@@ -128,9 +128,7 @@ class Tapper:
                     earn_on_hour = int(profile_data.get('earnPassivePerHour', 0))
                     total_keys = profile_data.get('totalKeys', 0)
                     balance = int(profile_data.get('balanceCoins', 0))
-
                     total = int(profile_data.get('totalCoins', 0))
-
                     logger.info(f"{self.session_name} | Total balance: <lg>+{balance:,}</lg> | "
                                 f"Balance to save: <ly>{settings.BALANCE_TO_SAVE:,}</ly> | "
                                 f"Total: <ly>{total:,}</ly>")
@@ -142,7 +140,6 @@ class Tapper:
 
                     upgrades = upgrades_data['upgradesForBuy']
                     daily_combo = upgrades_data.get('dailyCombo')
-
                     if daily_combo and settings.APPLY_COMBO and datetime.now().hour >= settings.WAKE_UP:
                         bonus = daily_combo['bonusCoins']
                         is_claimed = daily_combo['isClaimed']
@@ -327,6 +324,7 @@ class Tapper:
                                     start_date = tiles_mini_game['startDate']
                                     mini_game_id = tiles_mini_game['id']
                                     remain_points = tiles_mini_game['remainPoints']
+                                    max_points = tiles_mini_game['maxPoints']
                                     if not is_claimed and remain_points > 0:
                                         game_sleep_time = randint(a=settings.SLEEP_MINI_GAME_TILES[0],
                                                                   b=settings.SLEEP_MINI_GAME_TILES[1])
@@ -335,6 +333,10 @@ class Tapper:
 
                                         if game_score > remain_points:
                                             game_score = remain_points
+
+                                        logger.info(f"{self.session_name} | "
+                                                    f"Remain points <lg>{remain_points}/{max_points}</lg> in <lm>{mini_game_id}</lm> | "
+                                                    f"Sending score <lg>{game_score}</lg>")
 
                                         encoded_body = await get_mini_game_cipher(
                                             user_id=user_id,
@@ -370,12 +372,15 @@ class Tapper:
                                         if is_claimed or remain_points == 0:
                                             logger.info(
                                                 f"{self.session_name} | Daily Mini Game <lm>{mini_game_id}</lm> already claimed today")
+                                            break
                                         elif seconds_to_next_attempt > 0:
                                             logger.info(f"{self.session_name} | "
                                                         f"Need <lw>{seconds_to_next_attempt}s</lw> to next attempt in Mini Game <lm>{mini_game_id}</lm>")
+                                            break
                                         elif not encoded_body:
                                             logger.info(
                                                 f"{self.session_name} | Key for Mini Game <lm>{mini_game_id}</lm> is not found")
+                                            break
 
                         await asyncio.sleep(delay=randint(2, 4))
 
