@@ -629,6 +629,12 @@ class Tapper:
                                 "appToken": "b6de60a0-e030-48bb-a551-548372493523",
                                 "minWaitAfterLogin": 61,
                                 "name": "Gangs Wars"
+                            },
+                            {
+                                "promoId": "e68b39d2-4880-4a31-b3aa-0393e7df10c7",
+                                "appToken": "e68b39d2-4880-4a31-b3aa-0393e7df10c7",
+                                "minWaitAfterLogin": 31,
+                                "name": "Tile Trio"
                             }
                         ]
 
