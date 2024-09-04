@@ -18,14 +18,12 @@ class Settings(BaseSettings):
 
     MIN_PROFIT: int = 1000
 
-    BUY_RATIO: float = 0.00007
-
     BALANCE_TO_SAVE: int = 1_000_000
     UPGRADES_COUNT: int = 7
 
     MAX_COMBO_PRICE: int = 10_000_000
 
-    APPLY_COMBO: bool = True
+    APPLY_COMBO: bool = False
 
     APPLY_PROMO_CODES: bool = True
     PER_ENTERED_KEYS: int = 100
