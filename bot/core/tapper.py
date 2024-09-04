@@ -1,7 +1,7 @@
 import heapq
 import asyncio
 from time import time
-from random import randint
+from random import randint, shuffle
 from datetime import datetime, timedelta
 
 import aiohttp
@@ -483,6 +483,9 @@ class Tapper:
                         }
 
                         promos = promos_data.get('promos', [])
+
+                        shuffle(promos)
+
                         for promo in promos:
                             promo_id = promo['promoId']
 
