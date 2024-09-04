@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     MAX_LEVEL: int = 50
     MAX_PRICE: int = 200_000_000
 
+    MIN_PROFIT: int = 1000
+
     BUY_RATIO: float = 0.00007
 
     BALANCE_TO_SAVE: int = 1_000_000
