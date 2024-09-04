@@ -635,7 +635,13 @@ class Tapper:
                                 "appToken": "e68b39d2-4880-4a31-b3aa-0393e7df10c7",
                                 "minWaitAfterLogin": 31,
                                 "name": "Tile Trio"
-                            }
+                            },
+                            # {
+                            #     "promoId": "112887b0-a8af-4eb2-ac63-d82df78283d9",
+                            #     "appToken": "112887b0-a8af-4eb2-ac63-d82df78283d9",
+                            #     "minWaitAfterLogin": 31,
+                            #     "name": "Fluff Crusade"
+                            # },
                         ]
 
                         apps_info = await get_apps_info(http_client=http_client)
