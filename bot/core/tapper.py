@@ -383,6 +383,11 @@ class Tapper:
                         promos_data = await get_promos(http_client=http_client)
                         promo_states = promos_data.get('states', [])
 
+
+                        print(promo_states)
+
+                        input()
+
                         found_keys = sum([promo['receiveKeysToday'] for promo in promo_states])
 
                         all_keys = len(promo_states) * 4
