@@ -644,7 +644,7 @@ class Tapper:
                             # },
                         ]
 
-                        # apps_info = await get_apps_info(http_client=http_client)
+                        apps_info = await get_apps_info(http_client=http_client)
                         apps = {
                             app['promoId']: {
                                 'appToken': app['appToken'],
