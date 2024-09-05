@@ -398,6 +398,13 @@ class Tapper:
                         promo_activates = {promo['promoId']: promo['receiveKeysToday']
                                            for promo in promo_states}
 
+                        found_keys = sum([promo['receiveKeysToday'] for promo in promo_states])
+
+                        all_keys = len(promo_states) * 4
+
+                        logger.info(
+                            f"{self.session_name} | <lg>{found_keys}</lg> keys out of <lg>{all_keys}</lg> are activated!")
+
                         apps_info = await get_apps_info(http_client=http_client)
                         apps = {
                             app['promoId']: {
