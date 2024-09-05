@@ -141,7 +141,7 @@ class Tapper:
 
                     upgrades = upgrades_data['upgradesForBuy']
                     daily_combo = upgrades_data.get('dailyCombo')
-                    if daily_combo and settings.APPLY_COMBO:
+                    if daily_combo and settings.APPLY_COMBO and datetime.now().hour >= settings.WAKE_UP:
                         bonus = daily_combo['bonusCoins']
                         is_claimed = daily_combo['isClaimed']
                         upgraded_list = daily_combo['upgradeIds']
@@ -213,7 +213,7 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                    if settings.APPLY_DAILY_REWARD:
+                    if settings.APPLY_DAILY_REWARD and datetime.now().hour >= settings.WAKE_UP:
                         daily_task = tasks[-1]
                         is_completed = daily_task['isCompleted']
                         weeks = daily_task['weeks']
@@ -251,7 +251,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     daily_cipher = game_config.get('dailyCipher')
-                    if daily_cipher and settings.APPLY_DAILY_CIPHER:
+                    if daily_cipher and settings.APPLY_DAILY_CIPHER and datetime.now().hour >= settings.WAKE_UP:
                         cipher = daily_cipher['cipher']
                         bonus = daily_cipher['bonusCoins']
                         is_claimed = daily_cipher['isClaimed']
@@ -270,7 +270,7 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     daily_mini_game = game_config.get('dailyKeysMiniGames')
-                    if daily_mini_game and settings.APPLY_DAILY_MINI_GAME:
+                    if daily_mini_game and settings.APPLY_DAILY_MINI_GAME and datetime.now().hour >= settings.WAKE_UP:
                         candles_mini_game = daily_mini_game.get('Candles')
                         if candles_mini_game:
                             is_claimed = candles_mini_game['isClaimed']
@@ -323,7 +323,7 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                    for _ in range(randint(a=settings.GAMES_COUNT[0], b=settings.GAMES_COUNT[1])):
+                    for _ in range(randint(a=settings.GAMES_COUNT[0], b=settings.GAMES_COUNT[1])) and datetime.now().hour >= settings.WAKE_UP:
                         game_config = await get_game_config(http_client=http_client)
                         daily_mini_game = game_config.get('dailyKeysMiniGames')
                         if daily_mini_game and settings.APPLY_DAILY_MINI_GAME:
@@ -391,7 +391,7 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                    if settings.APPLY_PROMO_CODES:
+                    if settings.APPLY_PROMO_CODES and datetime.now().hour >= settings.WAKE_UP:
                         promos_data = await get_promos(http_client=http_client)
                         promo_states = promos_data.get('states', [])
 
@@ -481,7 +481,7 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                    if settings.AUTO_COMPLETE_TASKS:
+                    if settings.AUTO_COMPLETE_TASKS and datetime.now().hour >= settings.WAKE_UP:
                         tasks = await get_tasks(http_client=http_client)
                         for task in tasks:
                             task_id = task['id']
@@ -524,7 +524,7 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                if settings.USE_TAPS:
+                if settings.USE_TAPS and datetime.now().hour >= settings.WAKE_UP:
                     taps = randint(a=settings.RANDOM_TAPS_COUNT[0], b=settings.RANDOM_TAPS_COUNT[1])
 
                     profile_data = await send_taps(
@@ -546,7 +546,7 @@ class Tapper:
                     logger.success(f"{self.session_name} | Successful tapped! | "
                                    f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Total: <le>{total:,}</le>")
 
-                if settings.AUTO_UPGRADE is True:
+                if settings.AUTO_UPGRADE and datetime.now().hour >= settings.WAKE_UP:
                     for _ in range(settings.UPGRADES_COUNT):
                         available_upgrades = [
                             data for data in upgrades
@@ -619,7 +619,7 @@ class Tapper:
 
                             continue
 
-                if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS:
+                if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS and datetime.now().hour >= settings.WAKE_UP:
                     if settings.USE_TAPS:
                         boosts = await get_boosts(http_client=http_client)
                         energy_boost = next((boost for boost in boosts if boost['id'] == 'BoostFullAvailableTaps'), {})
@@ -643,7 +643,14 @@ class Tapper:
                         if not proxy_conn.closed:
                             proxy_conn.close()
 
-                    random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
+                    logger.info("<lr>***************************</lr>")
+                    logger.info("<lr>Закрив сесію. Пішов спати )</lr>")
+                    logger.info(f"<lr>**************************</lr>")
+
+                    if datetime.now().hour >= settings.WAKE_UP:
+                        random_sleep = randint(2500, 3610)
+                    else:
+                        random_sleep = randint(settings.SLEEP_BY_MIN_ENERGY[0], settings.SLEEP_BY_MIN_ENERGY[1])
 
                     if settings.USE_TAPS:
                         logger.info(f"{self.session_name} | Minimum energy reached: <ly>{available_energy:.0f}</ly>")
@@ -660,7 +667,7 @@ class Tapper:
                 logger.error(f"{self.session_name} | Unknown error: {error}")
                 await asyncio.sleep(delay=3)
 
-            if settings.USE_TAPS:
+            if settings.USE_TAPS and datetime.now().hour >= settings.WAKE_UP:
                 sleep_between_clicks = randint(a=settings.SLEEP_BETWEEN_TAP[0], b=settings.SLEEP_BETWEEN_TAP[1])
 
                 logger.info(f"Sleep <lw>{sleep_between_clicks}s</lw>")
