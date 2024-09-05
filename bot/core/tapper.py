@@ -620,7 +620,7 @@ class Tapper:
                             continue
 
                 if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS and datetime.now().hour >= settings.WAKE_UP:
-                    if settings.USE_TAPS:
+                    if settings.USE_TAPS and datetime.now().hour >= settings.WAKE_UP:
                         boosts = await get_boosts(http_client=http_client)
                         energy_boost = next((boost for boost in boosts if boost['id'] == 'BoostFullAvailableTaps'), {})
 
