@@ -432,6 +432,7 @@ class Tapper:
                             if today_promo_activates_count >= keys_per_day:
                                 logger.info(f"{self.session_name} | "
                                             f"Promo Codes already claimed today for <lm>{title}</lm> game")
+                                continue
 
                             while today_promo_activates_count < keys_per_day:
                                 promo_delay = randint(310, 470)
