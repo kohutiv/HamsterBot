@@ -214,8 +214,6 @@ class Tapper:
                     await asyncio.sleep(delay=randint(2, 4))
 
                     if settings.APPLY_DAILY_REWARD:
-                        tasks = await get_tasks(http_client=http_client)
-
                         daily_task = tasks[-1]
                         is_completed = daily_task['isCompleted']
                         weeks = daily_task['weeks']
@@ -575,13 +573,13 @@ class Tapper:
                             is_completed = task['isCompleted']
 
                             for task in tasks_config:
-                                if task.get("id") == task_id:
-                                    reward = task['rewardCoins']
+                                if task['id'] == task_id:
+                                    amount_reward = int(task.get('rewardCoins', 0))
 
                             if not task_id.startswith('hamster_youtube'):
                                 continue
 
-                            if not is_completed and reward > 0:
+                            if not is_completed and amount_reward > 0:
                                 logger.info(f"{self.session_name} | "
                                             f"Sleep <lw>3s</lw> before complete <ly>{task_id}</ly> task")
                                 await asyncio.sleep(delay=3)
@@ -593,7 +591,7 @@ class Tapper:
                                     balance = int(profile_data.get('balanceCoins', 0))
                                     logger.success(f"{self.session_name} | "
                                                    f"Successfully completed <ly>{task_id}</ly> task | "
-                                                   f"Balance: <lc>{balance}</lc> (<lg>+{reward}</lg>)")
+                                                   f"Balance: <lc>{balance:,}</lc> (<lg>+{amount_reward:,}</lg>)")
 
                                     tasks = await get_tasks(http_client=http_client)
                                 else:
@@ -703,6 +701,8 @@ class Tapper:
                                            f"Money left: <le>{balance:,}</le>")
 
                             await asyncio.sleep(delay=1)
+
+                            continue
 
                 if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS:
                     if settings.USE_TAPS:
