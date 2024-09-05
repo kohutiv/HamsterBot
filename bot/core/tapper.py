@@ -407,6 +407,9 @@ class Tapper:
                         }
 
                         promos = promos_data.get('promos', [])
+
+                        shuffle(promos)
+
                         for promo in promos:
                             promo_id = promo['promoId']
 
