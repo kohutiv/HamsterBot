@@ -572,8 +572,11 @@ class Tapper:
                         tasks = await get_tasks(http_client=http_client)
                         for task in tasks:
                             task_id = task['id']
-                            reward = task['rewardCoins']
                             is_completed = task['isCompleted']
+
+                            for task in tasks_config:
+                                if task.get("id") == task_id:
+                                    reward = task['rewardCoins']
 
                             if not task_id.startswith('hamster_youtube'):
                                 continue
