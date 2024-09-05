@@ -323,10 +323,10 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
-                    for _ in range(randint(a=settings.GAMES_COUNT[0], b=settings.GAMES_COUNT[1])) and datetime.now().hour >= settings.WAKE_UP:
+                    for _ in range(randint(a=settings.GAMES_COUNT[0], b=settings.GAMES_COUNT[1])):
                         game_config = await get_game_config(http_client=http_client)
                         daily_mini_game = game_config.get('dailyKeysMiniGames')
-                        if daily_mini_game and settings.APPLY_DAILY_MINI_GAME:
+                        if daily_mini_game and settings.APPLY_DAILY_MINI_GAME and datetime.now().hour >= settings.WAKE_UP:
                             tiles_mini_game = daily_mini_game.get('Tiles')
                             if tiles_mini_game:
                                 is_claimed = tiles_mini_game['isClaimed']
