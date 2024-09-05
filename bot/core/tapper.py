@@ -431,6 +431,14 @@ class Tapper:
                                             f"Promo Codes already claimed today for <lm>{title}</lm> game")
 
                             while today_promo_activates_count < keys_per_day:
+                                promo_delay = randint(310, 470)
+
+                                logger.info(
+                                    f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate "
+                                    f"new promo code")
+
+                                await asyncio.sleep(delay=promo_delay)
+
                                 promo_code = await get_promo_code(app_token=app_token,
                                                                   promo_id=promo_id,
                                                                   promo_title=title,
