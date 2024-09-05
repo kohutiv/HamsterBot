@@ -395,96 +395,8 @@ class Tapper:
                         promos_data = await get_promos(http_client=http_client)
                         promo_states = promos_data.get('states', [])
 
-                        found_keys = sum([promo['receiveKeysToday'] for promo in promo_states])
-
-                        all_keys = len(promo_states) * 4
-
                         promo_activates = {promo['promoId']: promo['receiveKeysToday']
                                            for promo in promo_states}
-
-                        logger.info(
-                            f"{self.session_name} | <lg>{found_keys}</lg> keys out of <lg>{all_keys}</lg> are activated!")
-
-                        apps_info = [
-                            {
-                                "promoId": "c4480ac7-e178-4973-8061-9ed5b2e17954",
-                                "appToken": "82647f43-3f87-402d-88dd-09a90025313f",
-                                "minWaitAfterLogin": 20,
-                                "name": "Bike Ride 3D"
-                            },
-                            {
-                                "promoId": "fe693b26-b342-4159-8808-15e3ff7f8767",
-                                "appToken": "74ee0b5b-775e-4bee-974f-63e7f4d5bacb",
-                                "minWaitAfterLogin": 121,
-                                "name": "CLONE"
-                            },
-                            {
-                                "promoId": "b4170868-cef0-424f-8eb9-be0622e8e8e3",
-                                "appToken": "d1690a07-3780-4068-810f-9b5bbf2931b2",
-                                "minWaitAfterLogin": 21,
-                                "name": "Chain Cube 2048"
-                            },
-                            {
-                                "promoId": "43e35910-c168-4634-ad4f-52fd764a843f",
-                                "appToken": "d28721be-fd2d-4b45-869e-9f253b554e50",
-                                "minWaitAfterLogin": 21,
-                                "name": "Train Miner"
-                            },
-                            {
-                                "promoId": "dc128d28-c45b-411c-98ff-ac7726fbaea4",
-                                "appToken": "8d1cc2ad-e097-4b86-90ef-7a27e19fb833",
-                                "minWaitAfterLogin": 21,
-                                "name": "Merge Away"
-                            },
-                            {
-                                "promoId": "61308365-9d16-4040-8bb0-2f4a4c69074c",
-                                "appToken": "61308365-9d16-4040-8bb0-2f4a4c69074c",
-                                "minWaitAfterLogin": 21,
-                                "name": "Twerk Race"
-                            },
-                            {
-                                "promoId": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
-                                "appToken": "2aaf5aee-2cbc-47ec-8a3f-0962cc14bc71",
-                                "minWaitAfterLogin": 31,
-                                "name": "Polysphere"
-                            },
-                            {
-                                "promoId": "8814a785-97fb-4177-9193-ca4180ff9da8",
-                                "appToken": "8814a785-97fb-4177-9193-ca4180ff9da8",
-                                "minWaitAfterLogin": 31,
-                                "name": "RACE"
-                            },
-                            {
-                                "promoId": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
-                                "appToken": "ef319a80-949a-492e-8ee0-424fb5fc20a6",
-                                "minWaitAfterLogin": 31,
-                                "name": "Mow and Trim"
-                            },
-                            {
-                                "promoId": "bc0971b8-04df-4e72-8a3e-ec4dc663cd11",
-                                "appToken": "bc0971b8-04df-4e72-8a3e-ec4dc663cd11",
-                                "minWaitAfterLogin": 31,
-                                "name": "CafeDash"
-                            },
-                            {
-                                "promoId": "b2436c89-e0aa-4aed-8046-9b0515e1c46b",
-                                "appToken": "b2436c89-e0aa-4aed-8046-9b0515e1c46b",
-                                "minWaitAfterLogin": 31,
-                                "name": "Zoopolis"
-                            },
-                            {
-                                "promoId": "c7821fa7-6632-482c-9635-2bd5798585f9",
-                                "appToken": "b6de60a0-e030-48bb-a551-548372493523",
-                                "minWaitAfterLogin": 61,
-                                "name": "Gangs Wars"
-                            },
-                            {
-                                "promoId": "e68b39d2-4880-4a31-b3aa-0393e7df10c7",
-                                "appToken": "e68b39d2-4880-4a31-b3aa-0393e7df10c7",
-                                "minWaitAfterLogin": 31,
-                                "name": "Tile Trio"
-                            }
-                        ]
 
                         apps_info = await get_apps_info(http_client=http_client)
                         apps = {
@@ -495,9 +407,6 @@ class Tapper:
                         }
 
                         promos = promos_data.get('promos', [])
-
-                        shuffle(promos)
-
                         for promo in promos:
                             promo_id = promo['promoId']
 
@@ -514,25 +423,14 @@ class Tapper:
 
                             title = promo['title']['en']
                             keys_per_day = promo['keysPerDay']
-                            keys_per_code = 1
 
                             today_promo_activates_count = promo_activates.get(promo_id, 0)
 
                             if today_promo_activates_count >= keys_per_day:
                                 logger.info(f"{self.session_name} | "
                                             f"Promo Codes already claimed today for <lm>{title}</lm> game")
-                                continue
 
                             while today_promo_activates_count < keys_per_day:
-
-                                promo_delay = randint(310, 470)
-
-                                logger.info(
-                                    f"{self.session_name} | Sleep <lc>{promo_delay:,}</lc>s before activate "
-                                    f"new promo code")
-
-                                await asyncio.sleep(delay=promo_delay)
-
                                 promo_code = await get_promo_code(app_token=app_token,
                                                                   promo_id=promo_id,
                                                                   promo_title=title,
@@ -544,18 +442,23 @@ class Tapper:
                                 if not promo_code:
                                     break
 
-                                profile_data, promo_state = await apply_promo(http_client=http_client,
-                                                                              promo_code=promo_code)
+                                profile_data, promo_state, reward_promo = await apply_promo(http_client=http_client,
+                                                                                            promo_code=promo_code)
 
                                 if profile_data and promo_state:
+                                    balance = int(profile_data.get('balanceCoins', balance))
                                     total_keys = profile_data.get('totalKeys', total_keys)
                                     today_promo_activates_count = promo_state.get('receiveKeysToday',
                                                                                   today_promo_activates_count)
 
+                                    type_reward = reward_promo.get('type', 'None')
+                                    amount_reward = reward_promo.get('amount', 0)
+
                                     logger.success(f"{self.session_name} | "
-                                                   f"Successfully activated promo code <lc>{promo_code}</lc> in <lm>{title}</lm> game | "
+                                                   f"Successfully activated promo code in <lm>{title}</lm> game | "
                                                    f"Get <ly>{today_promo_activates_count}</ly><lw>/</lw><ly>{keys_per_day}</ly> keys | "
-                                                   f"Total keys: <le>{total_keys}</le> (<lg>+{keys_per_code}</lg>)")
+                                                   f"<lg>+{amount_reward:,} {type_reward}</lg> | "
+                                                   f"Total keys: <le>{total_keys}</le> Balance: <lc>{balance:,}</lc>")
                                 else:
                                     logger.info(f"{self.session_name} | "
                                                 f"Promo code <lc>{promo_code}</lc> was wrong in <lm>{title}</lm> game | "
