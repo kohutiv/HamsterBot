@@ -16,8 +16,9 @@ async def get_version_config(
         {},
         'getting Version Config',
     )
+    version_config = response_json.get('config')
 
-    return response_json
+    return version_config
 
 
 async def get_game_config(
@@ -76,17 +77,6 @@ async def get_account_info(
     return response_json
 
 
-async def buy_skin(http_client: aiohttp.ClientSession, skin_id: str) -> dict:
-    response_json = await make_request(
-        http_client,
-        'POST',
-        'https://api.hamsterkombatgame.io/clicker/buy-skin',
-        {"skinId": skin_id, "timestamp": int(time())},
-        'buy skin',
-    )
-    return response_json
-
-
 async def get_skins(
         http_client: aiohttp.ClientSession
 ) -> dict:
@@ -96,17 +86,6 @@ async def get_skins(
         'https://api.hamsterkombatgame.io/clicker/get-skin',
         {},
         'getting Skins',
-    )
-    return response_json
-
-
-async def select_skin(http_client: aiohttp.ClientSession, skin_id: str) -> dict:
-    response_json = await make_request(
-        http_client,
-        'POST',
-        'https://api.hamsterkombatgame.io/clicker/select-skin',
-        {"skinId": skin_id},
-        'select skin',
     )
     return response_json
 

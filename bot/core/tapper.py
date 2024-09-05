@@ -217,24 +217,38 @@ class Tapper:
                         tasks = await get_tasks(http_client=http_client)
 
                         daily_task = tasks[-1]
-                        rewards = daily_task['rewardsByDays']
                         is_completed = daily_task['isCompleted']
+                        weeks = daily_task['weeks']
                         days = daily_task['days']
+
+                        tasks_config = version_config['tasks']
+
+                        for task in tasks_config:
+                            if task.get("id") == "streak_days_special":
+                                for week_data in task["rewardsByWeeksAndDays"]:
+                                    if week_data["week"] == weeks:
+                                        for day_data in week_data["days"]:
+                                            if day_data["day"] == days:
+                                                if "coins" in day_data:
+                                                    reward = f"{day_data['coins']} coins"
+                                                elif "keys" in day_data:
+                                                    reward = f"{day_data['keys']} keys"
+                                                elif "skinId" in day_data:
+                                                    reward = f"Skin: {day_data['skinId']}"
 
                         await asyncio.sleep(delay=2)
 
                         if not is_completed:
-                            task, profile_data = await check_task(http_client=http_client, task_id="streak_days")
+                            task, profile_data = await check_task(http_client=http_client,
+                                                                  task_id="streak_days_special")
                             is_completed = task.get('isCompleted')
 
                             if is_completed:
                                 logger.success(f"{self.session_name} | Successfully get daily reward | "
-                                               f"Days: <lm>{days}</lm> | Reward coins: <lg>+{rewards[days - 1]['rewardCoins']}</lg>")
+                                               f"Week: <lm>{weeks}</lm> Day: <lm>{days}</lm> | "
+                                               f"Reward: <lg>+{reward}</lg>")
                         else:
                             logger.info(f"{self.session_name} | Daily Reward already claimed today")
-
-                        await get_tasks(http_client=http_client)
-                        await get_upgrades(http_client=http_client)
 
                     await asyncio.sleep(delay=randint(2, 4))
 
