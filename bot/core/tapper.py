@@ -494,9 +494,9 @@ class Tapper:
                             task_id = task['id']
                             is_completed = task['isCompleted']
 
-                            for task in tasks_config:
-                                if task['id'] == task_id:
-                                    amount_reward = int(task.get('rewardCoins', 0))
+                            for task_config in tasks_config:
+                                if task_config['id'] == task_id:
+                                    amount_reward = int(task_config.get('rewardCoins', 0))
 
                             if not task_id.startswith('hamster_youtube'):
                                 continue
