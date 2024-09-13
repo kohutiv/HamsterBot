@@ -1,5 +1,6 @@
 import heapq
 import asyncio
+from pprint import pprint
 from time import time
 from random import randint, shuffle
 from datetime import datetime, timedelta
@@ -246,7 +247,9 @@ class Tapper:
                                                f"Week: <lm>{weeks}</lm> Day: <lm>{days}</lm> | "
                                                f"Reward: <lg>+{reward}</lg>")
                         else:
-                            logger.info(f"{self.session_name} | Daily Reward already claimed today")
+                            logger.info(f"{self.session_name} | Daily Reward already claimed today | "                                        
+                                        f"Week: <lm>{weeks}</lm> Day: <lm>{days}</lm> | "
+                                        f"Reward: <lg>+{reward}</lg>")
 
                     await asyncio.sleep(delay=randint(2, 4))
 
@@ -323,6 +326,82 @@ class Tapper:
 
                     await asyncio.sleep(delay=randint(2, 4))
 
+                    if settings.AUTO_UPGRADE and datetime.now().hour >= settings.WAKE_UP:
+
+                        for _ in range(settings.UPGRADES_COUNT):
+                            available_upgrades = [
+                                data for data in upgrades
+                                if data['isAvailable'] is True
+                                   and data['isExpired'] is False
+                                   and data.get('cooldownSeconds', 0) <= 1801
+                                   and data.get('maxLevel', data['level']) >= data['level']
+                            ]
+
+                            queue = []
+
+                            for upgrade in available_upgrades:
+                                upgrade_id = upgrade['id']
+                                level = upgrade['level']
+                                price = upgrade['price']
+                                profit = upgrade['profitPerHourDelta']
+
+                                significance = profit / max(price, 1)
+
+                                free_money = balance - settings.BALANCE_TO_SAVE
+                                max_price_limit = max(earn_on_hour, 50000) * 24
+
+                                if ((free_money * 0.8) >= price
+                                        and profit > settings.MIN_PROFIT
+                                        and level <= settings.MAX_LEVEL
+                                        and price <= settings.MAX_PRICE
+                                        and price < max_price_limit):
+                                    heapq.heappush(queue, (-significance, upgrade_id, upgrade))
+
+                            if not queue:
+                                continue
+
+                            top_card = heapq.nsmallest(1, queue)[0]
+
+                            upgrade = top_card[2]
+
+                            upgrade_id = upgrade['id']
+                            level = upgrade['level']
+                            price = upgrade['price']
+                            profit = upgrade['profitPerHourDelta']
+                            coin_name = upgrade['name']
+                            cooldown_seconds = upgrade.get('cooldownSeconds', 0)
+
+                            if not cooldown_seconds:
+                                logger.info(
+                                    f'{self.session_name} | Sleep 5s before upgrade <e>{coin_name}</e>'
+                                )
+                                await asyncio.sleep(delay=5)
+
+                            elif cooldown_seconds < 1801:
+                                logger.info(
+                                    f'{self.session_name} | Sleep {cooldown_seconds + 12:,}s before upgrade <e>{coin_name}</e>')
+
+                                await asyncio.sleep(delay=cooldown_seconds + 12)
+
+                            else:
+                                continue
+
+                            status, upgrades = await buy_upgrade(http_client=http_client, upgrade_id=upgrade_id)
+
+                            if status is True:
+                                earn_on_hour += profit
+                                balance -= price
+                                logger.success(f"{self.session_name} | "
+                                               f"Successfully upgraded <le>{upgrade_id}</le> with price <lr>{price:,}</lr> to <m>{level}</m> lvl | "
+                                               f"Earn every hour: <ly>{earn_on_hour:,}</ly> (<lg>+{profit:,}</lg>) | "
+                                               f"Money left: <le>{balance:,}</le>")
+
+                                await asyncio.sleep(delay=1)
+
+                                continue
+
+                    await asyncio.sleep(delay=randint(2, 4))
+
                     for _ in range(randint(a=settings.GAMES_COUNT[0], b=settings.GAMES_COUNT[1])):
                         game_config = await get_game_config(http_client=http_client)
                         daily_mini_game = game_config.get('dailyKeysMiniGames')
@@ -390,6 +469,7 @@ class Tapper:
                                     break
 
                     await asyncio.sleep(delay=randint(2, 4))
+
 
                     if settings.APPLY_PROMO_CODES and datetime.now().hour >= settings.WAKE_UP:
                         promos_data = await get_promos(http_client=http_client)
@@ -554,6 +634,7 @@ class Tapper:
                                    f"Balance: <lc>{balance:,}</lc> (<lg>+{calc_taps:,}</lg>) | Total: <le>{total:,}</le>")
 
                 if settings.AUTO_UPGRADE and datetime.now().hour >= settings.WAKE_UP:
+
                     for _ in range(settings.UPGRADES_COUNT):
                         available_upgrades = [
                             data for data in upgrades
@@ -625,6 +706,7 @@ class Tapper:
                             await asyncio.sleep(delay=1)
 
                             continue
+                await asyncio.sleep(delay=randint(2, 4))
 
                 if available_energy < settings.MIN_AVAILABLE_ENERGY or not settings.USE_TAPS or not datetime.now().hour >= settings.WAKE_UP:
                     if settings.USE_TAPS and datetime.now().hour >= settings.WAKE_UP:
